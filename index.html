@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KN WEB & TECHNOLOGY - Solutions Digitales Complètes</title>
+     <link rel="icon" type="image/png" sizes="16x16" href="KN WEB TECHNOLOGY.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+   <script src="script.js" defer></script>
+<style>
+   /* Panier amélioré */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 1001;
+            transition: right 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-panel.open {
+            right: 0;
+        }
+        
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .cart-overlay.active {
+            display: block;
+        }
+        
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            transition: color 0.3s ease;
+        }
+        
+        .close-cart:hover {
+            color: var(--accent);
+        }
+        
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 60px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .cart-item-category {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .item-quantity {
+            margin: 0 10px;
+            font-weight: 600;
+        }
+        
+        .remove-item {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .remove-item:hover {
+            color: #e84118;
+        }
+        
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            background: #f9f9f9;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-cart i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+        
+        /* Animation pour l'ajout au panier */
+        @keyframes addToCart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .cart-animation {
+            animation: addToCart 0.5s ease;
+        }
+        
+        /* Notification améliorée */
+        .cart-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1002;
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+     .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container.scrolled {
+            padding: 0.2rem 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .logo img {
+            margin-right: 0.5rem;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #4f46e5;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:not(.btn):after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #4f46e5;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:not(.btn):hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #4f46e5;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+            background: #e5e7eb;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            background: #f3f4f6;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger:hover {
+            background: #e5e7eb;
+        }
+        .mobile-nav-actions {
+             display: none; 
+        }
+        /* Media Queries pour la navbar */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.8rem 1.5rem;
+            }
+            
+            .logo {
+                font-size: 1rem;
+            }
+            
+            .logo img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 50%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding: 2rem;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                gap: 1.2rem;
+                overflow-y: auto;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 0.5rem 0;
+                width: 100%;
+                color: #212529
+                border-bottom: 1px solid #f3f4f6;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-actions {
+                display: none;
+            }
+            
+            .mobile-nav-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                margin-top: 2rem;
+                width: 100%;
+                padding-top: 1rem;
+                border-top: 1px solid #e5e7eb;
+            }
+            
+            .mobile-nav-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .mobile-nav-actions .cart-icon {
+                align-self: center;
+            }
+        }
+        
+        /* Styles pour la section contact responsive */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .contact-item i {
+            color: #4f46e5;
+            font-size: 1.2rem;
+            margin-top: 0.3rem;
+        }
+        
+        .contact-form {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            font-family: inherit;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Media Queries pour la section contact */
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+                gap: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .contact-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-container">
+        <nav>
+          <a href="#" class="logo flex items-center space-x-1 no-underline">
+    <img src="KN WEB TECHNOLOGY.jpg" alt="KN WEB TECHNOLOGY Logo" class="w-16 h-16 rounded-full border-2 border-indigo-500 shadow-md">
+   <div class="flex items-center justify-left">
+    <div class="flex items-baseline flex-nowrap">
+        <span class="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
+            KN WEB
+        </span>
+        <span class="mx-1 w-5 h-5 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+            &
+        </span>
+        <span class="text-lg font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent whitespace-nowrap">
+            TECHNOLOGY
+        </span>
+    </div>
+</div>
+</a>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#hero">Accueil</a>
+                <a href="#services">Services</a>
+                <a href="#pricing">Forfaits</a>
+                <a href="#templates">Templates</a>
+                <a href="#projects">Projets</a>
+                <a href="#hardware">Matériel</a>
+                <a href="#faq">FAQ</a>
+                
+                <!-- Actions mobiles -->
+                <div class="mobile-nav-actions">
+                    <a href="#contact" class="btn btn-secondary">Contact</a>
+                    
+                </div>
+            </div>
+            
+            <div class="nav-actions">
+                <a href="#contact" class="btn btn-secondary">Contact</a>
+              
+            </div>
+          
+    <!-- Icône du panier -->
+    <div class="cart-icon" id="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cart-count">0</span>
+    </div>
+    
+    <!-- Overlay pour fermer le panier -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    
+    <!-- Panier latéral -->
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2 class="cart-title">Votre Panier</h2>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-items" id="cart-items">
+            <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Votre panier est vide</p>
+            </div>
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">Procéder au paiement</button>
+        </div>
+    </div>
+    
+    <!-- Notification d'ajout au panier -->
+    <div class="cart-notification" id="cart-notification">
+        <i class="fas fa-check-circle notification-icon"></i>
+        <span id="notification-text">Produit ajouté au panier!</span>
+    </div>
+    
+        <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </div>
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-shape hero-shape-1"></div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Solutions Digitales <span>Complètes</span> pour Votre Entreprise</h1>
+                <p class="hero-text">KN WEB TECHNOLOGY vous accompagne dans votre transformation digitale avec des solutions sur mesure a la pointe de la technologie , et une expertise technique de pointe.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#services" class="btn btn-primary">
+                        <i class="fas fa-cogs"></i> Nos Services
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-phone-alt"></i> Nous contacter
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Solutions Digitales">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-header">
+            <h2 class="section-title">Nos Services Complets</h2>
+            <p class="section-subtitle">Découvrez l'ensemble de nos services pour répondre à tous vos besoins digitaux</p>
+        </div>
+        
+        <div class="services-grid">
+            <!-- Accompagnement & Digitalisation d'Entreprise -->
+<div class="service-card">
+    <div class="service-icon">
+        <i class="fas fa-business-time"></i>
+    </div>
+    <h3 class="service-title">Transformation Digitale</h3>
+    <p class="service-text">Accompagnement sur mesure pour digitaliser votre entreprise, tous secteurs confondus.</p>
+    <div class="service-features">
+        <div class="service-feature">
+            <i class="fas fa-check"></i> Audit personnalisé
+        </div>
+        <div class="service-feature">
+            <i class="fas fa-check"></i> Stratégie adaptée
+        </div>
+        <div class="service-feature">
+            <i class="fas fa-check"></i> Accompagnement complet
+        </div>
+        <div class="service-feature">
+            <i class="fas fa-check"></i> Suivi continu
+        </div>
+    </div>
+    <a href="#contact" class="btn btn-primary">Demander un Audit</a>
+</div>
+            <!-- Développement Web -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="service-title">Développement Web</h3>
+                <p class="service-text">Des sites web performants, sécurisés et parfaitement adaptés à vos besoins.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Sites vitrines
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Applications web
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> CMS personnalisés
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> API RESTful
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
+            </div>
+            
+            <!-- Applications Mobiles -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="service-title">Applications Mobiles</h3>
+                <p class="service-text">Applications natives et cross-platform pour iOS et Android.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Applications natives
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> React Native/Flutter
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Applications hybrides
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Intégration API
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
+            </div>
+            
+            <!-- E-commerce -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3 class="service-title">Solutions E-commerce</h3>
+                <p class="service-text">Plateformes de vente en ligne performantes et sécurisées.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Boutiques en ligne
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Marketplaces
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Paiements sécurisés
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Gestion de stocks
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
+            </div>
+            
+            <!-- UI/UX Design -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-pencil-ruler"></i>
+                </div>
+                <h3 class="service-title">UI/UX Design</h3>
+                <p class="service-text">Designs intuitifs et esthétiques pour une expérience utilisateur optimale.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Maquettes interactives
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Prototypage
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Tests utilisateurs
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Design systems
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
+            </div>
+            
+            <!-- Hébergement & Domaine -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3 class="service-title">Hébergement & Domaines</h3>
+                <p class="service-text">Solutions d'hébergement performantes et gestion de noms de domaine.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Hébergement mutualisé/VPS
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Enregistrement de domaines
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Certificats SSL
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Migration de sites
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
+            </div>
+            
+            <!-- Référencement SEO -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+                <h3 class="service-title">Référencement SEO</h3>
+                <p class="service-text">Améliorez votre visibilité sur les moteurs de recherche.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Audit technique
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Optimisation on-page
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Stratégie de contenu
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Netlinking
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
+            </div>
+            
+            <!-- Maintenance -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3 class="service-title">Maintenance & Support</h3>
+                <p class="service-text">Assistance technique et maintenance préventive pour vos solutions.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Correctifs et mises à jour
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Sauvegardes automatiques
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Surveillance 24/7
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Support technique
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
+            </div>
+            
+            <!-- Vente de matériel informatique -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <h3 class="service-title">Vente de Matériel Informatique</h3>
+                <p class="service-text">Équipez-vous avec du matériel informatique de qualité à des prix compétitifs.</p>
+                <div class="service-features">
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Ordinateurs et accessoires
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Périphériques et composants
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Réseau et connectivité
+                    </div>
+                    <div class="service-feature">
+                        <i class="fas fa-check"></i> Solutions d'impression
+                    </div>
+                </div>
+                <a href="#hardware" class="btn btn-primary">Voir le matériel</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="bg-light">
+        <div class="section-header">
+            <h2 class="section-title">Notre Processus de Travail</h2>
+            <p class="section-subtitle">Une méthodologie éprouvée pour garantir la réussite de vos projets</p>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3 class="step-title">Analyse des Besoins</h3>
+                <p class="step-text">Nous étudions vos objectifs et vos exigences pour proposer la solution la plus adaptée.</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3 class="step-title">Conception</h3>
+                <p class="step-text">Création des maquettes et définition de l'architecture technique du projet.</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3 class="step-title">Développement</h3>
+                <p class="step-text">Implémentation des fonctionnalités avec des technologies modernes et robustes.</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3 class="step-title">Tests & Validation</h3>
+                <p class="step-text">Vérification approfondie du produit avant sa mise en production.</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <h3 class="step-title">Livraison & Formation</h3>
+                <p class="step-text">Mise en ligne et formation pour une prise en main rapide.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-header">
+            <h2 class="section-title">Nos Projets Réalisés</h2>
+            <p class="section-subtitle">Découvrez quelques-unes de nos réalisations pour nos clients</p>
+        </div>
+        
+        <div class="projects-grid">
+            <!-- Projet 1 -->
+            <div class="project-card" data-id="project-1">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80" alt="Projet E-commerce">
+                </div>
+                <div class="project-content">
+                    <span class="project-category">E-commerce</span>
+                    <h3 class="project-title">Boutique en ligne FashionStyle</h3>
+                    <p class="project-description">Plateforme e-commerce complète avec gestion des stocks, paiements sécurisés et interface administrateur.</p>
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <button class="project-btn project-btn-primary view-project">
+                                <i class="fas fa-eye"></i> Voir les détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Projet 2 -->
+            <div class="project-card" data-id="project-2">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Projet Application Mobile">
+                </div>
+                <div class="project-content">
+                    <span class="project-category">Corporate</span>
+                    <h3 class="project-title">Site vitrine HomeDeco</h3>
+                    <p class="project-description">Site institutionnel moderne avec présentation de l'entreprise, services et portfolio de réalisations.</p>
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <button class="project-btn project-btn-primary view-project">
+                                <i class="fas fa-eye"></i> Voir les détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Projet 3 -->
+            <div class="project-card" data-id="project-3">
+                <div class="project-image">
+                    
+<img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Projet Corporate">
+
+                </div>
+                <div class="project-content">
+                    <span class="project-category">Application Mobile</span>
+                    <h3 class="project-title">App DeliveryFast</h3>
+                    <p class="project-description">Application de livraison rapide avec suivi en temps réel, paiement mobile et système de notation.</p>
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <button class="project-btn project-btn-primary view-project">
+                                <i class="fas fa-eye"></i> Voir les détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="toggle-btn" data-target="more-projects">
+            Voir plus de projets <i class="fas fa-chevron-down"></i>
+        </button>
+        
+        <div id="more-projects" class="hidden-section">
+            <div class="projects-grid">
+                <!-- Projet 4 -->
+                <div class="project-card" data-id="project-4">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Projet Portfolio">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-category">Portfolio</span>
+                        <h3 class="project-title">Portfolio Artistique</h3>
+                        <p class="project-description">Site portfolio élégant pour un artiste avec galerie, biographie et gestion des expositions.</p>
+                        <div class="project-footer">
+                            <div class="project-actions">
+                                <button class="project-btn project-btn-primary view-project">
+                                    <i class="fas fa-eye"></i> Voir les détails
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projet 5 -->
+                <div class="project-card" data-id="project-5">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" alt="Projet Marketplace">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-category">Marketplace</span>
+                        <h3 class="project-title">Plateforme Artisanale</h3>
+                        <p class="project-description">Marketplace mettant en relation artisans et clients avec système de commande et de livraison.</p>
+                        <div class="project-footer">
+                            <div class="project-actions">
+                                <button class="project-btn project-btn-primary view-project">
+                                    <i class="fas fa-eye"></i> Voir les détails
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projet 6 -->
+                <div class="project-card" data-id="project-6">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Projet Blog">
+                    </div>
+                    <div class="project-content">
+                        <span class="project-category">Blog</span>
+                        <h3 class="project-title">Blog Culturel</h3>
+                        <p class="project-description">Plateforme de blog avec système de gestion de contenu, commentaires et newsletter.</p>
+                        <div class="project-footer">
+                            <div class="project-actions">
+                                <button class="project-btn project-btn-primary view-project">
+                                    <i class="fas fa-eye"></i> Voir les détails
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+ <!-- Templates Section -->
+    <section id="templates">
+        <div class="section-header">
+            <h2 class="section-title">Nos Templates Premium</h2>
+            <p class="section-subtitle">Gagnez du temps avec nos templates professionnels prêts à l'emploi</p>
+        </div>
+        
+        <div class="templates-filter">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="new">Nouveautés</button>
+            <button class="filter-btn" data-filter="popular">Populaires</button>
+            <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+            <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+            <button class="filter-btn" data-filter="corporate">Corporate</button>
+        </div>
+        
+        <div class="templates-grid">
+            <!-- Template 1 -->
+            <div class="template-card" data-category="new corporate" data-id="template-1">
+                <div class="template-badge">Nouveau</div>
+                <div class="template-image">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Template Corporate">
+                </div>
+                <div class="template-content">
+                    <span class="template-category">Corporate</span>
+                    <h3 class="template-title">BusinessPro</h3>
+                    <p class="template-description">Template professionnel pour entreprises avec sections services, équipe et contact.</p>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            $59 <small>$79</small>
+                        </div>
+                        <div class="template-actions">
+                            <button class="template-btn template-btn-primary add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                            <button class="template-btn template-btn-secondary preview-template">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Template 2 -->
+            <div class="template-card" data-category="popular ecommerce" data-id="template-2">
+                <div class="template-badge">Best-seller</div>
+                <div class="template-image">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" alt="Template E-commerce">
+                </div>
+                <div class="template-content">
+                    <span class="template-category">E-commerce</span>
+                    <h3 class="template-title">ShopMaster</h3>
+                    <p class="template-description">Solution e-commerce complète avec page produit, panier et paiement.</p>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            $89 <small>$109</small>
+                        </div>
+                        <div class="template-actions">
+                            <button class="template-btn template-btn-primary add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                            <button class="template-btn template-btn-secondary preview-template">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Template 3 -->
+            <div class="template-card" data-category="portfolio" data-id="template-3">
+                <div class="template-image">
+                    <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Template Portfolio">
+                </div>
+                <div class="template-content">
+                    <span class="template-category">Portfolio</span>
+                    <h3 class="template-title">CreativeFolio</h3>
+                    <p class="template-description">Template portfolio élégant pour créatifs, photographes et designers.</p>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            $49
+                        </div>
+                        <div class="template-actions">
+                            <button class="template-btn template-btn-primary add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                            <button class="template-btn template-btn-secondary preview-template">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="toggle-btn" data-target="more-templates">
+            Voir plus de templates <i class="fas fa-chevron-down"></i>
+        </button>
+        
+        <div id="more-templates" class="hidden-section">
+            <div class="templates-grid">
+                <!-- Template 4 -->
+                <div class="template-card" data-category="corporate" data-id="template-4">
+                    <div class="template-image">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Template Corporate">
+                    </div>
+                    <div class="template-content">
+                        <span class="template-category">Corporate</span>
+                        <h3 class="template-title">EnterpriseX</h3>
+                        <p class="template-description">Template professionnel pour grandes entreprises avec multiples sections.</p>
+                        <div class="template-footer">
+                            <div class="template-price">
+                                $69
+                            </div>
+                            <div class="template-actions">
+                                <button class="template-btn template-btn-primary add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                                <button class="template-btn template-btn-secondary preview-template">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Template 5 -->
+                <div class="template-card" data-category="ecommerce" data-id="template-5">
+                    <div class="template-badge">Promo</div>
+                    <div class="template-image">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80" alt="Template E-commerce">
+                    </div>
+                    <div class="template-content">
+                        <span class="template-category">E-commerce</span>
+                        <h3 class="template-title">MarketPro</h3>
+                        <p class="template-description">Solution marketplace avec système de vendeurs multiples.</p>
+                        <div class="template-footer">
+                            <div class="template-price">
+                                $99 <small>$129</small>
+                            </div>
+                            <div class="template-actions">
+                                <button class="template-btn template-btn-primary add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                                <button class="template-btn template-btn-secondary preview-template">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Template 6 -->
+                <div class="template-card" data-category="portfolio" data-id="template-6">
+                    <div class="template-image">
+                        <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Template Portfolio">
+                    </div>
+                    <div class="template-content">
+                        <span class="template-category">Portfolio</span>
+                        <h3 class="template-title">ArtisanPort</h3>
+                        <p class="template-description">Template minimaliste pour artistes et artisans.</p>
+                        <div class="template-footer">
+                            <div class="template-price">
+                                $39
+                            </div>
+                            <div class="template-actions">
+                                <button class="template-btn template-btn-primary add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </button>
+                                <button class="template-btn template-btn-secondary preview-template">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hardware Section -->
+    <section id="hardware">
+        <div class="section-header">
+            <h2 class="section-title">Matériel Informatique</h2>
+            <p class="section-subtitle">Découvrez notre sélection de matériel informatique de qualité</p>
+        </div>
+        
+        <div class="hardware-grid">
+            <!-- Produit 1 -->
+            <div class="hardware-card">
+                <div class="hardware-badge">Nouveau</div>
+                <div class="hardware-image">
+                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80" alt="Ordinateur Portable">
+                </div>
+                <div class="hardware-content">
+                    <span class="hardware-category">Ordinateurs</span>
+                    <h3 class="hardware-title">Laptop UltraSlim Pro</h3>
+                    <p class="hardware-description">Ordinateur portable ultra-fin avec processeur i7, 16GB RAM et SSD 512GB.</p>
+                    <div class="hardware-price">
+                        899 000 FCFA <small>999 000 FCFA</small>
+                    </div>
+                    <div class="hardware-footer">
+                        <div class="hardware-actions">
+                            <a href="tel:+237620819290" class="hardware-btn hardware-btn-primary">
+                                <i class="fas fa-phone"></i> Appeler
+                            </a>
+                            <a href="https://wa.me/237620819290?text=Je suis intéressé par le Laptop UltraSlim Pro" class="hardware-btn hardware-btn-whatsapp">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="hardware-card">
+                <div class="hardware-badge">Promo</div>
+                <div class="hardware-image">
+                    <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1120&q=80" alt="Écran Gaming">
+                </div>
+                <div class="hardware-content">
+                    <span class="hardware-category">Écrans</span>
+                    <h3 class="hardware-title">Écran Gaming 27"</h3>
+                    <p class="hardware-description">Écran 27 pouces 144Hz, 1ms, résolution QHD pour une expérience gaming immersive.</p>
+                    <div class="hardware-price">
+                        350 000 FCFA <small>420 000 FCFA</small>
+                    </div>
+                    <div class="hardware-footer">
+                        <div class="hardware-actions">
+                            <a href="tel:+237620819290" class="hardware-btn hardware-btn-primary">
+                                <i class="fas fa-phone"></i> Appeler
+                            </a>
+                            <a href="https://wa.me/237620819290?text=Je suis intéressé par l'Écran Gaming 27" class="hardware-btn hardware-btn-whatsapp">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Produit 3 -->
+            <div class="hardware-card">
+                <div class="hardware-image">
+                    <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80" alt="Imprimante">
+                </div>
+                <div class="hardware-content">
+                    <span class="hardware-category">Périphériques</span>
+                    <h3 class="hardware-title">Imprimante Multifonction</h3>
+                    <p class="hardware-description">Imprimante laser multifonction avec impression, numérisation, copie et fax.</p>
+                    <div class="hardware-price">
+                        250 000 FCFA
+                    </div>
+                    <div class="hardware-footer">
+                        <div class="hardware-actions">
+                            <a href="tel:+237620819290" class="hardware-btn hardware-btn-primary">
+                                <i class="fas fa-phone"></i> Appeler
+                            </a>
+                            <a href="https://wa.me/237620819290?text=Je suis intéressé par l'Imprimante Multifonction" class="hardware-btn hardware-btn-whatsapp">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="toggle-btn" data-target="more-hardware">
+            Voir plus de matériel <i class="fas fa-chevron-down"></i>
+        </button>
+        
+        <div id="more-hardware" class="hidden-section">
+            <div class="hardware-grid">
+                <!-- Produit 4 -->
+                <div class="hardware-card">
+                    <div class="hardware-image">
+                        <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Clavier Souris">
+                    </div>
+                    <div class="hardware-content">
+                        <span class="hardware-category">Accessoires</span>
+                        <h3 class="hardware-title">Combo Clavier/Souris</h3>
+                        <p class="hardware-description">Clavier et souris sans fil ergonomiques avec design moderne et autonomie prolongée.</p>
+                        <div class="hardware-price">
+                            45 000 FCFA <small>55 000 FCFA</small>
+                        </div>
+                        <div class="hardware-footer">
+                            <div class="hardware-actions">
+                                <a href="tel:+237620819290" class="hardware-btn hardware-btn-primary">
+                                    <i class="fas fa-phone"></i> Appeler
+                                </a>
+                                <a href="https://wa.me/237620819290?text=Je suis intéressé par le Combo Clavier/Souris" class="hardware-btn hardware-btn-whatsapp">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Produit 5 -->
+                <div class="hardware-card">
+                    <div class="hardware-badge">Best-seller</div>
+                    <div class="hardware-image">
+                        <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Disque Dur">
+                    </div>
+                    <div class="hardware-content">
+                        <span class="hardware-category">Stockage</span>
+                        <h3 class="hardware-title">Disque Dur Externe 2TB</h3>
+                        <p class="hardware-description">Disque dur externe portable 2TB, USB 3.0, compatible avec PC et Mac.</p>
+                        <div class="hardware-price">
+                            85 000 FCFA <small>95 000 FCFA</small>
+                        </div>
+                        <div class="hardware-footer">
+                            <div class="hardware-actions">
+                                <a href="tel:+237620819290" class="hardware-btn hardware-btn-primary">
+                                    <i class="fas fa-phone"></i> Appeler
+                                </a>
+                                <a href="https://wa.me/237620819290?text=Je suis intéressé par le Disque Dur Externe 2TB" class="hardware-btn hardware-btn-whatsapp">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Produit 6 -->
+                <div class="hardware-card">
+                    <div class="hardware-image">
+                        <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Tablette Graphique">
+                    </div>
+                    <div class="hardware-content">
+                        <span class="hardware-category">Graphisme</span>
+                        <h3 class="hardware-title">Tablette Graphique</h3>
+                        <p class="hardware-description">Tablette graphique avec stylet précis, idéale pour les designers et illustrateurs.</p>
+                        <div class="hardware-price">
+                            120 000 FCFA
+                        </div>
+                        <div class="hardware-footer">
+                            <div class="hardware-actions">
+                                <a href="tel:+237620819290" class="hardware-btn hardware-btn-primary">
+                                    <i class="fas fa-phone"></i> Appeler
+                                </a>
+                                <a href="https://wa.me/237620819290?text=Je suis intéressé par la Tablette Graphique" class="hardware-btn hardware-btn-whatsapp">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-header">
+            <h2 class="section-title">Pourquoi Choisir KN WEB TECHNOLOGY</h2>
+            <p class="section-subtitle">Notre engagement pour l'excellence et la satisfaction client</p>
+        </div>
+        
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h3 class="feature-title">Expertise Technique</h3>
+                <p class="feature-text">Une équipe de développeurs expérimentés maîtrisant les dernières technologies du web.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="feature-title">Respect des Délais</h3>
+                <p class="feature-text">Nous livrons vos projets dans les temps avec une qualité constante.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="feature-title">Sécurité Maximale</h3>
+                <p class="feature-text">Implémentation des meilleures pratiques de sécurité pour protéger vos données.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="feature-title">Support Réactif</h3>
+                <p class="feature-text">Une équipe dédiée pour répondre à vos questions et résoudre vos problèmes.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="feature-title">Solutions Innovantes</h3>
+                <p class="feature-text">Nous proposons des solutions créatives et adaptées à vos besoins spécifiques.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3 class="feature-title">Rapport Qualité/Prix</h3>
+                <p class="feature-text">Des services haut de gamme à des tarifs compétitifs et transparents.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section id="testimonials">
+        <div class="section-header">
+            <h2 class="section-title">Ce Que Disent Nos Clients</h2>
+            <p class="section-subtitle">Ils nous ont fait confiance pour leurs projets digitaux</p>
+        </div>
+        
+        <div class="testimonials-container">
+            <div class="testimonials-slider">
+                <div class="testimonials-track">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">KN WEB TECHNOLOGY a réalisé notre site e-commerce avec un professionnalisme remarquable. Le résultat dépasse nos attentes et notre chiffre d'affaires a augmenté de 40% depuis la mise en ligne.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sophie Martin">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Sarah Johnson</h4>
+                                    <p>Directrice Marketing, FashionStyle</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">Leur expertise en développement mobile nous a permis de lancer notre application dans les temps malgré un calendrier serré. Le code est propre et bien documenté.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Thomas Leroy">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Michael Brown</h4>
+                                    <p>CEO, DeliveryFast</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">Nous travaillons avec KN WEB TECHNOLOGY depuis 3 ans pour tous nos besoins digitaux. Leur réactivité et leur professionnalisme en font un partenaire de choix.</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Camille Dupont">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Émilie Dubois</h4>
+                                    <p>Directrice Technique, Agence Com'Plus</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-nav">
+                <div class="testimonial-dot active" data-slide="0"></div>
+                <div class="testimonial-dot" data-slide="1"></div>
+                <div class="testimonial-dot" data-slide="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+
+<section id="pricing">
+    <div class="section-header">
+        <h2 class="section-title">Nos Formules d'Accompagnement</h2>
+        <p class="section-subtitle">Choisissez la formule qui correspond à vos besoins et à votre budget</p>
+    </div>
+    
+    <div class="pricing-switch">
+        <span class="pricing-label">Mensuel</span>
+        <label class="switch">
+            <input type="checkbox" id="pricing-toggle">
+            <span class="slider"></span>
+        </label>
+        <span class="pricing-label">Annuel</span>
+    </div>
+   
+    <div class="pricing-grid">
+        <div class="pricing-card">
+            <h3 class="pricing-title">Starter</h3>
+            <div class="pricing-price">
+                <span class="price-amount" data-monthly="65000" data-yearly="950">65000</span> 
+                <span class="price-currency">FCFA</span>
+                <span class="price-period">/mois</span>
+            </div>
+            <div class="pricing-features">
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> 5h de développement
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> Support par email
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> 1 correction mineure
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-times"></i> Maintenance incluse
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-times"></i> Support urgent
+                </div>
+            </div>
+            <button class="btn btn-secondary choose-plan" data-plan="starter" style="width: 100%;">Choisir cette formule</button>
+        </div>
+        
+        <div class="pricing-card popular">
+            <div class="popular-badge">Populaire</div>
+            <h3 class="pricing-title">Pro</h3>
+            <div class="pricing-price">
+                <span class="price-amount" data-monthly="196000" data-yearly="2870">196000</span> 
+                <span class="price-currency">FCFA</span>
+                <span class="price-period">/mois</span>
+            </div>
+            <div class="pricing-features">
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> 20h de développement
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> Support prioritaire
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> 3 corrections
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> Maintenance basique
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-times"></i> Support 24/7
+                </div>
+            </div>
+            <button class="btn btn-primary choose-plan" data-plan="pro" style="width: 100%;">Choisir cette formule</button>
+        </div>
+        
+        <div class="pricing-card">
+            <h3 class="pricing-title">Enterprise</h3>
+            <div class="pricing-price">
+                <span class="price-amount" data-monthly="392000" data-yearly="5750">392000</span> 
+                <span class="price-currency">FCFA</span>
+                <span class="price-period">/mois</span>
+            </div>
+            <div class="pricing-features">
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> 50h de développement
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> Support dédié
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> Corrections illimitées
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> Maintenance complète
+                </div>
+                <div class="pricing-feature">
+                    <i class="fas fa-check"></i> Support 24/7
+                </div>
+            </div>
+            <button class="btn btn-secondary choose-plan" data-plan="enterprise" style="width: 100%;">Choisir cette formule</button>
+        </div>
+    </div>
+</section>
+
+<!-- Section flottante de sélection de forfait -->
+<div id="plan-selection-overlay" class="plan-overlay">
+    <div class="plan-selection-modal">
+        <div class="plan-modal-header">
+            <h3>Choisissez votre forfait</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        
+        <div class="plan-modal-content">
+            <div class="plan-summary">
+                <h4 id="selected-plan-title">Starter</h4>
+                <div class="plan-price">
+                    <span id="selected-plan-price">99</span> 
+                    <span id="selected-plan-currency">€</span>
+                    <span id="selected-plan-period">/mois</span>
+                </div>
+                <div class="plan-saving" id="plan-saving"></div>
+            </div>
+            
+            <div class="plan-options">
+                <div class="plan-option">
+                    <label class="option-label">
+                        <input type="radio" name="billing" value="monthly" checked>
+                        <span class="option-text">
+                            <strong>Facturation mensuelle</strong>
+                            <span id="monthly-price">99€/mois</span>
+                        </span>
+                    </label>
+                </div>
+                
+                <div class="plan-option">
+                    <label class="option-label">
+                        <input type="radio" name="billing" value="yearly">
+                        <span class="option-text">
+                            <strong>Facturation annuelle</strong>
+                            <span id="yearly-price">950€/an</span>
+                            <span class="save-badge">Économisez 15%</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <h5>Ce forfait inclut :</h5>
+                <div id="plan-features-list"></div>
+            </div>
+            
+            <div class="plan-actions">
+                <button class="btn btn-outline" id="cancel-plan">Annuler</button>
+                <button class="btn btn-primary" id="confirm-plan">Confirmer la sélection</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="section-header">
+            <h2 class="section-title">Questions Fréquentes</h2>
+            <p class="section-subtitle">Trouvez des réponses aux questions les plus courantes sur nos services</p>
+        </div>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Quelles technologies utilisez-vous pour vos développements ?</span>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Nous utilisons les technologies les plus récentes et adaptées à chaque projet : HTML5, CSS3, JavaScript (React, Vue, Angular), PHP (Laravel, Symfony), Node.js, Python (Django), ainsi que des CMS comme WordPress et Shopify lorsque cela est pertinent. Pour les applications mobiles, nous développons en React Native, Flutter ou natif (Swift/Kotlin).</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Quel est le délai moyen pour un projet de site web ?</span>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Le délai dépend de la complexité du projet. Un site vitrine simple peut être livré en 2-3 semaines, tandis qu'un site e-commerce complexe peut prendre 2-3 mois. Nous établissons toujours un calendrier précis en début de projet et nous engageons à le respecter.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Proposez-vous des services d'hébergement et de maintenance ?</span>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Oui, nous proposons des solutions d'hébergement performantes et sécurisées, ainsi que des contrats de maintenance incluant mises à jour, sauvegardes et surveillance. Nous pouvons également gérer votre hébergement existant si vous préférez.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Comment se déroule le processus de création d'un site web ?</span>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Notre processus comprend 5 étapes : 1) Analyse des besoins et cahier des charges, 2) Conception (maquettes, UX), 3) Développement, 4) Tests et validation, 5) Formation et mise en ligne. Nous vous impliquons à chaque étape pour garantir un résultat conforme à vos attentes.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Quelle est votre politique de confidentialité ?</span>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Nous traitons toutes les informations clients avec la plus grande confidentialité. Vos données et celles de vos utilisateurs sont protégées conformément au RGPD. Nous signons des clauses de confidentialité si nécessaire et ne réutilisons jamais le code ou les designs d'un projet pour un autre client sans autorisation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta">
+        <div class="cta-shape cta-shape-1"></div>
+        <div class="cta-shape cta-shape-2"></div>
+        
+        <div class="cta-container">
+            <h2 class="cta-title">Prêt à Démarrer Votre Projet ?</h2>
+            <p class="cta-text">Contactez-nous dès aujourd'hui pour discuter de vos besoins et obtenir un devis personnalisé.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="https:/wa.me/620819290" class="btn btn-accent">
+                    <i class="fas fa-paper-plane"></i> Nous contacter
+                </a>
+                <a href="tel:+237620819290" class="btn btn-secondary">
+                    <i class="fas fa-phone-alt"></i> Appeler maintenant
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <h2 class="section-title">Contactez-Nous</h2>
+            <p class="section-subtitle">Une question, un projet ? Notre équipe est à votre écoute</p>
+        </div>
+        
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Informations de contact</h3>
+                
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Adresse</h4>
+                        <p>Ancienne pharmacie de la republique, Douala, Cameroun</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>contact@knwebtechnology.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h4>Téléphone</h4>
+                        <p>+237 620 81 92 90</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Horaires</h4>
+                        <p>Lundi - Samedi : 24/24<br>Dimanche : 9h - 23h</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form-container">
+                <h3>Envoyez-nous un message</h3>
+                
+                <form class="contact-form">
+                    <div class="form-row">
+                        <input type="text" placeholder="Votre nom" required>
+                        <input type="email" placeholder="Votre email" required>
+                    </div>
+                    
+                    <input type="text" placeholder="Sujet" required>
+                    
+                    <textarea placeholder="Votre message" required></textarea>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Envoyer le message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <i class="fas fa-code"></i> KN WEB TECHNOLOGY
+                </div>
+                <p class="footer-about">
+                    KN WEB TECHNOLOGY est une agence digitale spécialisée dans le développement web, mobile et les solutions digitales sur mesure pour les petites et grandes entreprises.
+                </p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/share/19MHVy3v4m/?mibextid=wwXIfr"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/kn_web_technology"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Développement Web</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Applications Mobiles</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> E-commerce</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> UI/UX Design</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Référencement SEO</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Ressources</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Templates</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Documentation</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Entreprise</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> À propos</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Équipe</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Carrières</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Projets</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p style="color: #aaa; margin-bottom: 1rem;">
+                    Abonnez-vous pour recevoir nos dernières actualités et offres spéciales.
+                </p>
+                <div class="footer-newsletter">
+                    <input type="email" placeholder="Votre email">
+                    <button class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> S'abonner
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2023 KN WEB TECHNOLOGY. Tous droits réservés. | <a href="#" style="color: #777;">Mentions légales</a> | <a href="#" style="color: #777;">Politique de confidentialité</a> | <a href="#" style="color: #777;">CGV</a>
+        </div>
+    </footer>
+
+    <!-- Template Viewer -->
+    <div class="template-viewer">
+        <div class="viewer-container">
+            <div class="viewer-header">
+                <h3>Template Preview</h3>
+                <button class="close-viewer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="viewer-content">
+                <div class="template-preview">
+                    <div id="template-display"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div class="project-modal" id="project-modal">
+        <div class="project-modal-container">
+            <div class="project-modal-header">
+                <h3 id="project-modal-title">Détails du Projet</h3>
+                <button class="close-project-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="project-modal-content" id="project-modal-content">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3 class="cart-title">Votre Panier</h3>
+            <button class="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="cart-empty">
+                <i class="fas fa-shopping-cart" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                <p>Votre panier est vide</p>
+            </div>
+        </div>
+        <div class="cart-summary" id="cart-summary" style="display: none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-credit-card"></i> Passer la commande
+            </button>
+        </div>
+    </div>
+
+    <!-- WhatsApp Button -->
+    <div class="fixed bottom-2 left-4 ml-8 z-50">
+        <div class="inline-flex items-center space-x-2">
+            <a href="https://wa.me/237620819290" class="bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 animate-bounce">
+                <i class="fab fa-whatsapp text-2xl"></i>
+            </a>
+        </div>
+    </div>
+
+ <script>
+
+  
+    </script>
+</body>
+</html>
