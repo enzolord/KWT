@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conditions Générales de Vente | Votre Agence Web</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--dark);
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        h2:first-child {
+            margin-top: 0;
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .company-info {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .highlight {
+            background-color: #f1f5f9;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .clause {
+            margin-bottom: 2rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            color: #94a3b8;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .last-updated {
+            background-color: #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <section class="hero">
+        <div class="container">
+            <h1>Conditions Générales de Vente</h1>
+            <p>Les conditions régissant nos prestations de services web et digitales</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="last-updated">Dernière mise à jour : 1 janvier 2024</div>
+        
+        <div class="content">
+            <h2>Préambule</h2>
+            <p>Les présentes conditions générales de vente (CGV) s'appliquent à toutes les prestations de services fournies par <strong>KN WEB & TECHNOLOGY</strong>, SAS au capital de 500 000FCFA,  Douala, Cameroun.</p>
+            
+            <p>En passant commande, le client déclare avoir pris connaissance et accepté sans réserve les présentes conditions générales de vente.</p>
+
+            <h2>Article 1 - Objet</h2>
+            <div class="clause">
+                <p>Les présentes conditions générales de vente ont pour objet de définir les relations contractuelles entre <strong>KN WEB & TECHNOLOGY</strong> et le client, ainsi que les conditions dans lesquelles sont réalisées les prestations commandées par le client.</p>
+                
+                <p>Les prestations concernées incluent notamment :</p>
+                <ul>
+                    <li>Conception et développement de sites web</li>
+                    <li>Création d'applications web et mobiles</li>
+                    <li>Services de référencement (SEO)</li>
+                    <li>Stratégie de marketing digital</li>
+                    <li>Conception graphique et UX/UI design</li>
+                    <li>Hébergement et maintenance de sites web</li>
+                </ul>
+            </div>
+
+            <h2>Article 2 - Devis et commande</h2>
+            <div class="clause">
+                <p>Toute commande de prestation fait l'objet d'un devis préalable détaillant :</p>
+                <ul>
+                    <li>La nature exacte des prestations</li>
+                    <li>Les délais de réalisation</li>
+                    <li>Le prix total HT et TTC</li>
+                    <li>Les modalités de paiement</li>
+                    <li>Les conditions de révision du prix</li>
+                </ul>
+                
+                <p>Le devis est valable 30 jours à compter de sa date d'émission. La commande est considérée comme ferme et définitive après signature du devis par le client et versement de l'acompte prévu.</p>
+            </div>
+
+            <h2>Article 3 - Prix et modalités de paiement</h2>
+            <div class="clause">
+                <h3>3.1 Prix</h3>
+                <p>Les prix sont indiqués en FCFA hors taxes (HT) et sont majorés du taux de TVA applicable au jour de la commande.</p>
+                
+                <h3>3.2 Modalités de paiement</h3>
+                <p>Le paiement des prestations s'effectue selon les modalités suivantes :</p>
+                <ul>
+                    <li>40% à la commande</li>
+                    <li>30% à la mi-parcours (présentation de la maquette ou version bêta)</li>
+                    <li>30% à la livraison finale</li>
+                </ul>
+                
+                <p>En cas de retard de paiement, des pénalités de retard d'un montant égal à trois fois le taux d'intérêt légal seront appliquées, ainsi qu'une indemnité forfaitaire de 40 € pour frais de recouvrement.</p>
+            </div>
+
+            <h2>Article 4 - Délais de réalisation</h2>
+            <div class="clause">
+                <p>Les délais de réalisation sont indiqués à titre indicatif dans le devis. Ils peuvent être affectés par :</p>
+                <ul>
+                    <li>Le retard dans la fourniture des éléments nécessaires par le client</li>
+                    <li>Les demandes de modifications substantielles en cours de projet</li>
+                    <li>Les cas de force majeure</li>
+                </ul>
+                
+                <p>En cas de dépassement des délais imputable à <strong>KN WEB & TECHNOLOGY</strong>, le client pourra demander une réduction du prix dans la limite de 5% du montant total de la prestation.</p>
+            </div>
+
+            <h2>Article 5 - Obligations du client</h2>
+            <div class="clause">
+                <p>Le client s'engage à :</p>
+                <ul>
+                    <li>Fournir tous les éléments nécessaires à la réalisation de la prestation dans les délais convenus</li>
+                    <li>Vérifier les livrables et formuler ses observations dans un délai de 8 jours ouvrables</li>
+                    <li>Respecter les échéances de paiement</li>
+                    <li>Ne pas entraver le bon déroulement de la prestation</li>
+                </ul>
+            </div>
+
+            <h2>Article 6 - Propriété intellectuelle</h2>
+            <div class="clause">
+                <p>Les droits de propriété intellectuelle sur les créations (code source, design, charte graphique, etc.) sont cédés au client uniquement après paiement intégral de la facture.</p>
+                
+                <p><strong>KN WEB & TECHNOLOGY</strong> conserve le droit d'utiliser les réalisations à des fins de promotion, sauf opposition expresse du client.</p>
+                
+                <p>Le client garantit que les éléments fournis (textes, images, logos) ne portent pas atteinte aux droits de tiers et assume l'entière responsabilité en cas de litige.</p>
+            </div>
+
+            <h2>Article 7 - Garanties</h2>
+            <div class="clause">
+                <p><strong>Agence Web</strong> garantit la conformité de ses prestations aux spécifications techniques définies dans le devis.</p>
+                
+                <p>Une garantie de bon fonctionnement de 2 mois est accordée pour les développements spécifiques à compter de la livraison finale.</p>
+                
+                <p>La garantie ne couvre pas les problèmes liés à :</p>
+                <ul>
+                    <li>L'incompatibilité avec des versions ultérieures de logiciels tiers</li>
+                    <li>Les modifications apportées par le client ou un tiers</li>
+                    <li>L'utilisation non conforme aux spécifications techniques</li>
+                </ul>
+            </div>
+
+            <h2>Article 8 - Confidentialité</h2>
+            <div class="clause">
+                <p>Les parties s'engagent à garder confidentielles toutes les informations échangées dans le cadre de leur collaboration, et à ne les divulguer à aucun tiers sans accord préalable écrit.</p>
+                
+                <p>Cette obligation de confidentialité survit à la fin de la relation contractuelle.</p>
+            </div>
+
+            <h2>Article 9 - Résiliation</h2>
+            <div class="clause">
+                <p>En cas de manquement grave d'une partie à ses obligations, l'autre partie pourra résilier le contrat de plein droit après mise en demeure restée sans effet pendant 15 jours.</p>
+                
+                <p>En cas de résiliation à l'initiative du client, <strong>Agence Web</strong> sera rémunérée au prorata des prestations réalisées jusqu'à la date de résiliation.</p>
+            </div>
+
+            <h2>Article 10 - Responsabilité</h2>
+            <div class="clause">
+                <p>La responsabilité de <strong>KN WEB & TECHNOLOGY</strong> ne pourra être engagée que pour des dommages directs résultant d'une faute prouvée, et sera limitée au montant total de la prestation concernée.</p>
+                
+                <p><strong>KN WEB & TECHNOLOGYWeb</strong> décline toute responsabilité pour :</p>
+                <ul>
+                    <li>Les dommages indirects (perte de chiffre d'affaires, perte de données, etc.)</li>
+                    <li>Les problèmes liés à l'hébergement lorsqu'il est fourni par un tiers</li>
+                    <li>L'utilisation frauduleuse ou non autorisée des réalisations</li>
+                </ul>
+            </div>
+
+            <h2>Article 11 - Litiges</h2>
+            <div class="clause">
+                <p>En cas de litige, les parties s'efforceront de trouver une solution amiable avant toute action judiciaire.</p>
+                
+                <p>À défaut d'accord amiable, les tribunaux de Douala seront seuls compétents, quel que soit le lieu d'exécution de la prestation ou le domicile du défendeur.</p>
+            </div>
+
+            <h2>Article 12 - Droit applicable</h2>
+            <div class="clause">
+                <p>Les présentes conditions générales de vente sont régies par le droit Camerounais .</p>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Pour toute question relative à nos conditions générales de vente :</strong></p>
+                <p>KN WEB & TECHNOLOGY - Douala, Cameroun<br>
+                Téléphone : +237 620819290 <br>
+                Email : knwebtechnology@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // Mise à jour automatique de l'année dans le copyright
+        document.querySelector('.copyright').innerHTML = &copy; ${new Date().getFullYear()} Agence Web. Tous droits réservés.;
+        
+        // Animation simple pour les titres
+        document.addEventListener('DOMContentLoaded', function() {
+            const headings = document.querySelectorAll('h2');
+            headings.forEach(heading => {
+                heading.style.opacity = '0';
+                heading.style.transform = 'translateY(20px)';
+                heading.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            setTimeout(() => {
+                headings.forEach(heading => {
+                    heading.style.opacity = '1';
+                    heading.style.transform = 'translateY(0)';
+                });
+            }, 300);
+        });
+    </script>
+</body>
+</html>
