@@ -532,9 +532,11 @@
     <div class="nav-container">
         <nav>
           <a href="#" class="logo flex items-center space-x-1 no-underline">
-    <img src="KN WEB TECHNOLOGY.jpg" alt="KN WEB TECHNOLOGY Logo" class="w-16 h-16 rounded-full border-2 border-indigo-500 shadow-md">
    <div class="flex items-center justify-left">
+ 
     <div class="flex items-baseline flex-nowrap">
+         <img src="KN WEB TECHNOLOGY.jpg" alt="KN WEB TECHNOLOGY Logo" class="w-16 h-16 rounded-full border-2 border-indigo-500 shadow-md">
+ 
         <span class="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
             KN WEB
         </span>
@@ -1824,7 +1826,8 @@
         <div class="footer-container">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <i class="fas fa-code"></i> KN WEB TECHNOLOGY
+ <img src="KN WEB TECHNOLOGY.jpg" alt="KN WEB TECHNOLOGY Logo" class="w-16 h-16 rounded-full border-2 border-indigo-500 shadow-md">
+                    KN WEB & TECHNOLOGY
                 </div>
                 <p class="footer-about">
                     KN WEB TECHNOLOGY est une agence digitale spécialisée dans le développement web, mobile et les solutions digitales sur mesure pour les petites et grandes entreprises.
@@ -1885,7 +1888,7 @@
         </div>
         
         <div class="copyright">
-            &copy; 2023 KN WEB TECHNOLOGY. Tous droits réservés. | <a href="#" style="color: #777;">Mentions légales</a> | <a href="#" style="color: #777;">Politique de confidentialité</a> | <a href="#" style="color: #777;">CGV</a>
+            &copy; 2025 KN WEB & TECHNOLOGY. Tous droits réservés. | <a href="Mention legale.html" style="color: #777;">Mentions légales</a> | <a href="politique de confidentialite.html" style="color: #777;">Politique de confidentialité</a> | <a href="CGV.html" style="color: #777;">CGV</a>
         </div>
     </footer>
 
@@ -1893,11 +1896,11 @@
     <div class="template-viewer">
         <div class="viewer-container">
             <div class="viewer-header">
-                <h3>Template Preview</h3>
+             <!--   <h3>Template Preview</h3>
                 <button class="close-viewer">
                     <i class="fas fa-times"></i>
                 </button>
-            </div>
+            </div> -->
             <div class="viewer-content">
                 <div class="template-preview">
                     <div id="template-display"></div>
@@ -1945,7 +1948,299 @@
             </button>
         </div>
     </div>
+                               
+    <style>
+        /* Styles pour le bouton flottant OVALE - GAUCHE avec animations extraordinaires */
+        .floating-chat-button {
+            position: fixed;
+            bottom: 90px;
+            left: 25px;
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(135deg, #2d5af1, #1e3fb8);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(45, 90, 241, 0.4);
+            border: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            /* Animation extraordinaire */
+            animation: float 3s ease-in-out infinite, 
+                       glow 2s ease-in-out infinite alternate,
+                       colorShift 4s ease-in-out infinite;
+        }
 
+        .floating-chat-button:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 6px 25px rgba(45, 90, 241, 0.8);
+            border-radius: 25px;
+            animation: hoverPulse 0.5s ease-in-out,
+                       float 3s ease-in-out infinite,
+                       glow 1s ease-in-out infinite alternate;
+        }
+
+        .floating-chat-button:active {
+            transform: scale(0.9) rotate(-5deg);
+            animation: clickBounce 0.3s ease-in-out;
+        }
+
+        /* Animations extraordinaires */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 3px 12px rgba(45, 90, 241, 0.4), 0 0 0px rgba(255, 255, 255, 0.8); }
+            100% { box-shadow: 0 3px 15px rgba(45, 90, 241, 0.6), 0 0 15px rgba(255, 255, 255, 0.6); }
+        }
+
+        @keyframes colorShift {
+            0%, 100% { 
+                background: linear-gradient(135deg, #2d5af1, #1e3fb8); 
+            }
+            50% { 
+                background: linear-gradient(135deg, #4a6cf7, #2d5af1); 
+            }
+        }
+
+        @keyframes hoverPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1.15); }
+        }
+
+        @keyframes clickBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.8); }
+            100% { transform: scale(0.9); }
+        }
+
+        /* Badge de notification avec animations */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: badgePulse 1.5s ease-in-out infinite,
+                       badgeSpin 2s linear infinite;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.6);
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes badgeSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Style pour le bouton WhatsApp */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            animation: whatsappFloat 4s ease-in-out infinite;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+            animation: whatsappHover 1s ease-in-out infinite;
+        }
+
+        @keyframes whatsappFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes whatsappHover {
+            0%, 100% { transform: scale(1.1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(5deg); }
+            75% { transform: scale(1.1) rotate(-5deg); }
+        }
+
+        /* Version mobile */
+        @media (max-width: 768px) {
+            .floating-chat-button {
+                bottom: 80px;
+                left: 20px;
+                width: 55px;
+                height: 38px;
+                border-radius: 19px;
+                font-size: 1.1rem;
+            }
+
+            .whatsapp-button {
+                bottom: 15px;
+                left: 15px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.6rem;
+            }
+
+            .notification-badge {
+                width: 18px;
+                height: 18px;
+                font-size: 0.55rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .floating-chat-button {
+                bottom: 75px;
+                left: 15px;
+                width: 50px;
+                height: 35px;
+                border-radius: 17.5px;
+                font-size: 1rem;
+            }
+
+            .whatsapp-button {
+                bottom: 10px;
+                left: 10px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+
+
+    <!-- Bouton flottant de messagerie avec animations extraordinaires -->
+    <a href="assistant.html" class="floating-chat-button" id="chatButton" title="Ouvrir l'assistant KN">
+        <i class="fas fa-comments"></i>
+        <div class="notification-badge" id="notificationBadge" style="display: none;">3</div>
+    </a>
+
+      <script>
+        // Simulation de notifications avec effets spéciaux
+        function simulateNotifications() {
+            setTimeout(() => {
+                const badge = document.getElementById('notificationBadge');
+                badge.style.display = 'flex';
+                badge.textContent = '1';
+                
+                // Effet spécial pour nouvelle notification
+                const button = document.getElementById('chatButton');
+                button.style.animation = 'shake 0.5s ease-in-out, float 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate';
+                
+                // Son de notification (optionnel)
+                if (typeof Audio !== 'undefined') {
+                    const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQ');
+                    audio.play().catch(() => {});
+                }
+            }, 3000);
+        }
+
+        simulateNotifications();
+
+        // Animation de shake améliorée
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0) rotate(0deg); }
+                25% { transform: translateX(-8px) rotate(-5deg); }
+                50% { transform: translateX(8px) rotate(5deg); }
+                75% { transform: translateX(-8px) rotate(-5deg); }
+            }
+            
+            /* Effet de particules pour le hover */
+            .floating-chat-button::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+                border-radius: inherit;
+                z-index: -1;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                animation: rainbow 2s linear infinite;
+            }
+            
+            .floating-chat-button:hover::before {
+                opacity: 0.3;
+            }
+            
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Effet de clic amélioré
+        document.getElementById('chatButton').addEventListener('click', function(e) {
+            // Créer un effet de ripple
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            const size = Math.max(this.offsetWidth, this.offsetHeight);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.offsetX - size/2) + 'px';
+            ripple.style.top = (e.offsetY - size/2) + 'px';
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // Ajouter l'animation ripple
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+    </script>
+
+                    
     <!-- WhatsApp Button -->
     <div class="fixed bottom-2 left-4 ml-8 z-50">
         <div class="inline-flex items-center space-x-2">
@@ -1961,3 +2256,4 @@
     </script>
 </body>
 </html>
+
