@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos Projets — KN WEB & TECHNOLOGY</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Projects page extra styles */
+    .projects-filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      padding: 1.2rem 1.5rem;
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1.5px solid var(--gray-light);
+      box-shadow: var(--shadow);
+    }
+    .filter-group { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .project-count { color: var(--gray); font-size: .88rem; font-weight: 500; white-space: nowrap; }
+
+    .projects-masonry {
+      columns: 3;
+      column-gap: 1.5rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .projects-masonry .project-card { break-inside: avoid; margin-bottom: 1.5rem; display: block; }
+
+    /* Enhanced project card */
+    .project-card .project-image { height: auto; }
+    .project-card .project-image img { height: 220px; }
+
+    /* Webview Modal */
+    .webview-modal { animation: fadeInModal .3s ease; }
+    @keyframes fadeInModal { from{opacity:0;} to{opacity:1;} }
+    .webview-toolbar {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      padding: .5rem 1rem;
+      background: var(--dark2);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      flex-shrink: 0;
+    }
+    .webview-nav-btn {
+      background: rgba(255,255,255,.08);
+      border: none;
+      color: rgba(255,255,255,.6);
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem;
+      transition: var(--transition);
+    }
+    .webview-nav-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+    .webview-url-display {
+      flex: 1;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 8px;
+      padding: .4rem 1rem;
+      color: rgba(255,255,255,.65);
+      font-size: .82rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .webview-url-display .secure-icon { color: var(--success); font-size: .75rem; }
+    .webview-device-btns { display: flex; gap: .4rem; }
+    .device-btn {
+      background: rgba(255,255,255,.08);
+      border: none; color: rgba(255,255,255,.6);
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem;
+      transition: var(--transition);
+    }
+    .device-btn:hover, .device-btn.active { background: var(--primary); color: #fff; }
+    .webview-frame-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      overflow: hidden;
+      transition: all .4s ease;
+      padding: 0;
+    }
+    .webview-frame-wrap.mobile { padding: 20px 0; }
+    .webview-frame-wrap.tablet { padding: 15px 0; }
+    .webview-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transition: all .4s ease;
+    }
+    .webview-frame-wrap.mobile .webview-iframe { width: 375px; height: calc(100% - 40px); border-radius: 20px; }
+    .webview-frame-wrap.tablet .webview-iframe { width: 768px; max-width: 95%; height: calc(100% - 30px); border-radius: 12px; }
+
+    /* Placeholder when no real URL */
+    .project-preview-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1rem;
+      color: rgba(255,255,255,.5);
+      background: var(--dark2);
+    }
+    .project-preview-placeholder i { font-size: 3rem; opacity: .3; }
+    .project-preview-placeholder h3 { font-size: 1.3rem; opacity: .7; }
+    .project-preview-placeholder p { font-size: .9rem; opacity: .5; max-width: 400px; text-align: center; }
+    .preview-screenshot {
+      max-width: 80%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    }
+    .preview-screenshot img { width: 100%; display: block; }
+
+    /* Featured project */
+    .featured-project {
+      max-width: 1300px;
+      margin: 0 auto 3rem;
+      background: var(--dark);
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+    }
+    .featured-img { position: relative; min-height: 400px; }
+    .featured-img img { width: 100%; height: 100%; object-fit: cover; }
+    .featured-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(13,13,26,.4), transparent);
+    }
+    .featured-info { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .featured-tag {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--accent);
+      color: #fff;
+      padding: .3rem .8rem;
+      border-radius: 50px;
+      font-size: .75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      width: fit-content;
+    }
+    .featured-title { font-size: 1.8rem; color: #fff; margin-bottom: .8rem; }
+    .featured-desc { color: rgba(255,255,255,.65); font-size: .95rem; margin-bottom: 1.5rem; line-height: 1.7; }
+    .featured-tech { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.8rem; }
+    .featured-tech .tech-tag { background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); }
+    .featured-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+    /* Stats inside project card */
+    .project-stats { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .project-stat { display: flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--gray); }
+    .project-stat i { color: var(--secondary); font-size: .75rem; }
+
+    @media (max-width: 1024px) {
+      .projects-masonry { columns: 2; }
+      .featured-project { grid-template-columns: 1fr; }
+      .featured-img { min-height: 250px; }
+    }
+    @media (max-width: 640px) {
+      .projects-masonry { columns: 1; }
+      .projects-filter-bar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<div class="nav-container">
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="KN WEB TECHNOLOGY.jpg" alt="KN Logo">
+      <div class="logo-wordmark">
+        <span class="logo-kn">KN WEB</span>
+        <span class="logo-amp">&</span>
+        <span class="logo-tech">TECHNOLOGY</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="projets.html" class="active">Projets</a></li>
+      <li><a href="index.html#templates">Templates</a></li>
+      <li><a href="index.html#hardware">Matériel</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="index.html#contact" class="btn btn-secondary">Contact</a>
+      <div class="cart-icon" id="cart-icon">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cart-count">0</span>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+  </nav>
+</div>
+
+<!-- ── Page Hero ── -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Accueil</a>
+      <span>/</span>
+      <span>Projets</span>
+    </div>
+    <h1>Nos <span style="color:var(--accent2)">Réalisations</span></h1>
+    <p>Découvrez nos projets livrés avec passion et expertise. Chaque solution est conçue sur mesure pour répondre aux besoins de nos clients.</p>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><strong>50+</strong><span>Projets livrés</span></div>
+    <div class="stat-item"><strong>98%</strong><span>Clients satisfaits</span></div>
+    <div class="stat-item"><strong>6</strong><span>Domaines d'expertise</span></div>
+    <div class="stat-item"><strong>3 ans</strong><span>D'expérience</span></div>
+  </div>
+</div>
+
+<!-- ── Projects Section ── -->
+<section id="projects" style="background:#fff;">
+  <div class="section-header">
+    <span class="section-tag"><i class="fas fa-trophy"></i> Portfolio</span>
+    <h2 class="section-title">Projet <span class="gradient-text">Vedette</span></h2>
+  </div>
+
+  <!-- Featured Project -->
+  <div class="featured-project">
+    <div class="featured-img">
+      <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1172&q=80" alt="FashionStyle">
+      <div class="featured-overlay"></div>
+    </div>
+    <div class="featured-info">
+      <span class="featured-tag"><i class="fas fa-star"></i> Projet Vedette</span>
+      <h2 class="featured-title">Boutique en ligne FashionStyle</h2>
+      <p class="featured-desc">Plateforme e-commerce complète avec gestion des stocks en temps réel, paiements sécurisés multi-devises, système de fidélité et interface administrateur avancée. Résultat : +40% de CA en 3 mois.</p>
+      <div class="featured-tech">
+        <span class="tech-tag">React</span>
+        <span class="tech-tag">Node.js</span>
+        <span class="tech-tag">MongoDB</span>
+        <span class="tech-tag">Stripe</span>
+        <span class="tech-tag">Redis</span>
+      </div>
+      <div class="featured-actions">
+        <button class="btn btn-primary open-webview" data-url="https://www.example.com" data-title="FashionStyle — Boutique en ligne">
+          <i class="fas fa-eye"></i> Visualiser le site
+        </button>
+        <button class="btn btn-ghost view-project-details" data-id="project-1">
+          <i class="fas fa-info-circle"></i> Détails
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="projects-filter-bar">
+    <div class="filter-group">
+      <button class="filter-btn active" data-filter="all">Tous</button>
+      <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+      <button class="filter-btn" data-filter="corporate">Corporate</button>
+      <button class="filter-btn" data-filter="mobile">Mobile</button>
+      <button class="filter-btn" data-filter="marketplace">Marketplace</button>
+      <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+      <button class="filter-btn" data-filter="blog">Blog</button>
+    </div>
+    <span class="project-count" id="projectCount">6 projets</span>
+  </div>
+
+  <!-- Projects Grid -->
+  <div class="projects-masonry" id="projectsGrid">
+
+    <!-- Projet 1 -->
+    <div class="project-card" data-category="ecommerce" data-id="project-1">
+      <div class="project-image">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1172&q=80" alt="FashionStyle">
+        <div class="project-overlay">
+          <button class="project-preview-btn open-webview" data-url="https://www.example.com" data-title="FashionStyle — Boutique en ligne">
+            <i class="fas fa-desktop"></i> Voir le site
+          </button>
+        </div>
+      </div>
+      <div class="project-content">
+        <span class="project-category">E-commerce</span>
+        <h3 class="project-title">Boutique FashionStyle</h3>
+        <p class="project-description">Plateforme e-commerce avec gestion stocks, paiements sécurisés et interface admin.</p>
+        <div class="project-stats">
+          <span class="project-stat"><i class="fas fa-chart-line"></i> +40% de CA</span>
+          <span class="project-stat"><i class="fas fa-clock"></i> 8 semaines</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">MongoDB</span>
+        </div>
+        <div class="project-footer">
+          <button class="project-btn project-btn-primary open-webview" data-url="https://www.example.com" data-title="FashionStyle">
+            <i class="fas fa-eye"></i> Voir le site
+          </button>
+          <button class="project-btn project-btn-secondary view-project-details" data-id="project-1">
+            <i class="fas fa-info-circle"></i> Détails
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 2 -->
+    <div class="project-card" data-category="corporate" data-id="project-2">
+      <div class="project-image">
+        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1170&q=80" alt="HomeDeco">
+        <div class="project-overlay">
+          <button class="project-preview-btn open-webview" data-url="https://www.example.com" data-title="HomeDeco — Site vitrine">
+            <i class="fas fa-desktop"></i> Voir le site
+          </button>
+        </div>
+      </div>
+      <div class="project-content">
+        <span class="project-category">Corporate</span>
+        <h3 class="project-title">Site vitrine HomeDeco</h3>
+        <p class="project-description">Site institutionnel moderne avec présentation de l'entreprise, services et portfolio.</p>
+        <div class="project-stats">
+          <span class="project-stat"><i class="fas fa-users"></i> +200% trafic</span>
+          <span class="project-stat"><i class="fas fa-clock"></i> 4 semaines</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">HTML5</span>
+          <span class="tech-tag">CSS3</span>
+          <span class="tech-tag">PHP</span>
+        </div>
+        <div class="project-footer">
+          <button class="project-btn project-btn-primary open-webview" data-url="https://www.example.com" data-title="HomeDeco">
+            <i class="fas fa-eye"></i> Voir le site
+          </button>
+          <button class="project-btn project-btn-secondary view-project-details" data-id="project-2">
+            <i class="fas fa-info-circle"></i> Détails
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 3 -->
+    <div class="project-card" data-category="mobile" data-id="project-3">
+      <div class="project-image">
+        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1074&q=80" alt="DeliveryFast">
+        <div class="project-overlay">
+          <button class="project-preview-btn open-webview" data-url="https://www.example.com" data-title="DeliveryFast — Application mobile">
+            <i class="fas fa-mobile-alt"></i> Voir l'app
+          </button>
+        </div>
+      </div>
+      <div class="project-content">
+        <span class="project-category">Application Mobile</span>
+        <h3 class="project-title">App DeliveryFast</h3>
+        <p class="project-description">Application de livraison rapide avec suivi temps réel, paiement mobile et notation.</p>
+        <div class="project-stats">
+          <span class="project-stat"><i class="fas fa-star"></i> 4.8/5 App Store</span>
+          <span class="project-stat"><i class="fas fa-clock"></i> 12 semaines</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">React Native</span>
+          <span class="tech-tag">Firebase</span>
+          <span class="tech-tag">Maps API</span>
+        </div>
+        <div class="project-footer">
+          <button class="project-btn project-btn-primary open-webview" data-url="https://www.example.com" data-title="DeliveryFast">
+            <i class="fas fa-eye"></i> Voir l'app
+          </button>
+          <button class="project-btn project-btn-secondary view-project-details" data-id="project-3">
+            <i class="fas fa-info-circle"></i> Détails
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 4 -->
+    <div class="project-card" data-category="portfolio" data-id="project-4">
+      <div class="project-image">
+        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=1064&q=80" alt="Portfolio Artistique">
+        <div class="project-overlay">
+          <button class="project-preview-btn open-webview" data-url="https://www.example.com" data-title="Portfolio Artistique">
+            <i class="fas fa-desktop"></i> Voir le site
+          </button>
+        </div>
+      </div>
+      <div class="project-content">
+        <span class="project-category">Portfolio</span>
+        <h3 class="project-title">Portfolio Artistique</h3>
+        <p class="project-description">Site portfolio élégant avec galerie, biographie et gestion des expositions.</p>
+        <div class="project-stats">
+          <span class="project-stat"><i class="fas fa-images"></i> 200+ œuvres</span>
+          <span class="project-stat"><i class="fas fa-clock"></i> 3 semaines</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">WordPress</span>
+          <span class="tech-tag">PHP</span>
+          <span class="tech-tag">MySQL</span>
+        </div>
+        <div class="project-footer">
+          <button class="project-btn project-btn-primary open-webview" data-url="https://www.example.com" data-title="Portfolio Artistique">
+            <i class="fas fa-eye"></i> Voir le site
+          </button>
+          <button class="project-btn project-btn-secondary view-project-details" data-id="project-4">
+            <i class="fas fa-info-circle"></i> Détails
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 5 -->
+    <div class="project-card" data-category="marketplace" data-id="project-5">
+      <div class="project-image">
+        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1169&q=80" alt="Plateforme Artisanale">
+        <div class="project-overlay">
+          <button class="project-preview-btn open-webview" data-url="https://www.example.com" data-title="Plateforme Artisanale">
+            <i class="fas fa-desktop"></i> Voir le site
+          </button>
+        </div>
+      </div>
+      <div class="project-content">
+        <span class="project-category">Marketplace</span>
+        <h3 class="project-title">Plateforme Artisanale</h3>
+        <p class="project-description">Marketplace mettant en relation artisans et clients avec système de commande.</p>
+        <div class="project-stats">
+          <span class="project-stat"><i class="fas fa-store"></i> 120 artisans</span>
+          <span class="project-stat"><i class="fas fa-clock"></i> 10 semaines</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">Vue.js</span>
+          <span class="tech-tag">Laravel</span>
+          <span class="tech-tag">Redis</span>
+        </div>
+        <div class="project-footer">
+          <button class="project-btn project-btn-primary open-webview" data-url="https://www.example.com" data-title="Plateforme Artisanale">
+            <i class="fas fa-eye"></i> Voir le site
+          </button>
+          <button class="project-btn project-btn-secondary view-project-details" data-id="project-5">
+            <i class="fas fa-info-circle"></i> Détails
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projet 6 -->
+    <div class="project-card" data-category="blog" data-id="project-6">
+      <div class="project-image">
+        <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=1170&q=80" alt="Blog Culturel">
+        <div class="project-overlay">
+          <button class="project-preview-btn open-webview" data-url="https://www.example.com" data-title="Blog Culturel">
+            <i class="fas fa-desktop"></i> Voir le site
+          </button>
+        </div>
+      </div>
+      <div class="project-content">
+        <span class="project-category">Blog</span>
+        <h3 class="project-title">Blog Culturel</h3>
+        <p class="project-description">Plateforme de blog avec CMS, commentaires, newsletter et recherche avancée.</p>
+        <div class="project-stats">
+          <span class="project-stat"><i class="fas fa-newspaper"></i> 500+ articles</span>
+          <span class="project-stat"><i class="fas fa-clock"></i> 5 semaines</span>
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">WordPress</span>
+          <span class="tech-tag">Elementor</span>
+          <span class="tech-tag">MySQL</span>
+        </div>
+        <div class="project-footer">
+          <button class="project-btn project-btn-primary open-webview" data-url="https://www.example.com" data-title="Blog Culturel">
+            <i class="fas fa-eye"></i> Voir le site
+          </button>
+          <button class="project-btn project-btn-secondary view-project-details" data-id="project-6">
+            <i class="fas fa-info-circle"></i> Détails
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <div style="text-align:center; margin-top:3rem;">
+    <p style="color:var(--gray); margin-bottom:1rem;">Vous avez un projet en tête ?</p>
+    <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-rocket"></i> Démarrons votre projet</a>
+  </div>
+</section>
+
+<!-- ── WebView Modal ── -->
+<div class="webview-modal" id="webviewModal">
+  <div class="webview-header">
+    <div class="webview-dots">
+      <div class="webview-dot red"></div>
+      <div class="webview-dot yellow"></div>
+      <div class="webview-dot green"></div>
+    </div>
+    <div class="webview-toolbar" style="flex:1;display:flex;align-items:center;gap:.7rem;padding:0;border:none;background:none;">
+      <button class="webview-nav-btn" title="Retour"><i class="fas fa-arrow-left"></i></button>
+      <button class="webview-nav-btn" title="Actualiser" id="webviewRefresh"><i class="fas fa-redo"></i></button>
+      <div class="webview-url-display">
+        <i class="fas fa-lock secure-icon"></i>
+        <span id="webviewUrl">https://www.example.com</span>
+      </div>
+      <div class="webview-device-btns">
+        <button class="device-btn active" data-device="desktop" title="Desktop"><i class="fas fa-desktop"></i></button>
+        <button class="device-btn" data-device="tablet" title="Tablette"><i class="fas fa-tablet-alt"></i></button>
+        <button class="device-btn" data-device="mobile" title="Mobile"><i class="fas fa-mobile-alt"></i></button>
+      </div>
+    </div>
+    <button class="webview-close" id="webviewClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="webview-frame-wrap" id="webviewFrameWrap">
+    <div class="project-preview-placeholder" id="webviewPlaceholder">
+      <i class="fas fa-globe"></i>
+      <h3 id="webviewTitle">Chargement...</h3>
+      <p>Prévisualisation du projet — Ce projet est hébergé sur nos serveurs clients. Contactez-nous pour un accès de démonstration.</p>
+      <div class="preview-screenshot" id="previewScreenshot"></div>
+    </div>
+    <iframe id="webviewIframe" class="webview-iframe" style="display:none;" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" title="Prévisualisation projet"></iframe>
+  </div>
+</div>
+
+<!-- ── Project Details Modal ── -->
+<div class="project-modal" id="projectModal">
+  <div class="project-modal-container">
+    <div class="project-modal-header">
+      <h3 id="modalTitle">Détails du Projet</h3>
+      <button class="close-project-modal" id="closeProjectModal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="project-modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-col">
+      <div class="footer-logo">
+        <div class="footer-logo-icon"><i class="fas fa-code" style="color:#fff"></i></div>
+        <span class="footer-logo-text">KN WEB & TECHNOLOGY</span>
+      </div>
+      <p class="footer-about">Agence digitale spécialisée dans le développement web, mobile et les solutions digitales sur mesure.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/share/19MHVy3v4m/" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/kn_web_technology" title="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Navigation</h3>
+      <ul class="footer-links">
+        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+        <li><a href="services.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+        <li><a href="projets.html"><i class="fas fa-chevron-right"></i> Projets</a></li>
+        <li><a href="index.html#templates"><i class="fas fa-chevron-right"></i> Templates</a></li>
+        <li><a href="index.html#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Services</h3>
+      <ul class="footer-links">
+        <li><a href="services.html#web"><i class="fas fa-chevron-right"></i> Développement Web</a></li>
+        <li><a href="services.html#mobile"><i class="fas fa-chevron-right"></i> Applications Mobiles</a></li>
+        <li><a href="services.html#ecommerce"><i class="fas fa-chevron-right"></i> E-commerce</a></li>
+        <li><a href="services.html#seo"><i class="fas fa-chevron-right"></i> SEO</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <ul class="footer-links">
+        <li><a href="tel:+237620819290"><i class="fas fa-phone"></i> +237 620 81 92 90</a></li>
+        <li><a href="mailto:contact@knwebtechnology.com"><i class="fas fa-envelope"></i> contact@knwebtechnology.com</a></li>
+        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Douala, Cameroun</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Newsletter</h3>
+      <div class="footer-newsletter">
+        <p>Restez informé de nos dernières réalisations.</p>
+        <form class="newsletter-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <input type="email" name="email" placeholder="Votre email" required>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            <i class="fas fa-paper-plane"></i> S'abonner
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    &copy; 2025 KN WEB & TECHNOLOGY. Tous droits réservés. |
+    <a href="Mention legale.html">Mentions légales</a> |
+    <a href="politique de confidentialite.html">Politique de confidentialité</a>
+  </div>
+</footer>
+
+<!-- Floating Buttons -->
+<a href="assistant.html" class="floating-chat-button" title="Assistant KN IA"><i class="fas fa-comments"></i></a>
+<a href="https://wa.me/237620819290" class="whatsapp-float" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+// ── Projects Data ──
+const projectsData = {
+  'project-1': {
+    title: 'Boutique en ligne FashionStyle',
+    category: 'E-commerce',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1172&q=80',
+    description: 'Plateforme e-commerce complète avec gestion des stocks en temps réel, paiements sécurisés et interface administrateur avancée. Ce projet a permis à FashionStyle d\'augmenter son chiffre d\'affaires de 40% en seulement 3 mois après le lancement.',
+    features: ['Design responsive et moderne', 'Intégration Stripe & Orange Money', 'Gestion stocks en temps réel', 'Interface admin complète', 'Système de promotions', 'SEO optimisé'],
+    technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Redis', 'AWS S3'],
+    duration: '8 semaines',
+    client: 'FashionStyle',
+    result: '+40% de CA en 3 mois',
+    url: 'https://www.example.com'
+  },
+  'project-2': {
+    title: 'Site vitrine HomeDeco',
+    category: 'Corporate',
+    image: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1170&q=80',
+    description: 'Site institutionnel moderne pour une entreprise de décoration intérieure. Présentation claire des services, portfolio visuel et formulaire de contact optimisé pour la génération de leads.',
+    features: ['Design corporate professionnel', 'Galerie portfolio interactive', 'Formulaire de contact avancé', 'Optimisation SEO complète', 'Intégration Google Analytics', 'Performance Core Web Vitals A'],
+    technologies: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'MySQL'],
+    duration: '4 semaines',
+    client: 'HomeDeco',
+    result: '+200% de trafic organique',
+    url: 'https://www.example.com'
+  },
+  'project-3': {
+    title: 'App DeliveryFast',
+    category: 'Application Mobile',
+    image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1074&q=80',
+    description: 'Application mobile de livraison rapide disponible sur iOS et Android. Suivi GPS en temps réel, paiement mobile intégré (MTN Mobile Money, Orange Money), système de notation des livreurs.',
+    features: ['Suivi GPS temps réel', 'Paiement Mobile Money', 'Notifications push', 'Système de notation', 'Interface conducteur & client', 'Tableau de bord analytique'],
+    technologies: ['React Native', 'Firebase', 'Google Maps API', 'Stripe', 'FCM'],
+    duration: '12 semaines',
+    client: 'DeliveryFast',
+    result: '4.8/5 sur App Store',
+    url: 'https://www.example.com'
+  },
+  'project-4': {
+    title: 'Portfolio Artistique',
+    category: 'Portfolio',
+    image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=1064&q=80',
+    description: 'Site portfolio élégant pour un artiste plasticien avec galerie d\'images optimisée, gestion des expositions passées et à venir, et espace presse.',
+    features: ['Galerie responsive', 'Gestion des expositions', 'Blog intégré', 'Formulaire presse', 'Design unique et artistique', 'Multilingue (FR/EN)'],
+    technologies: ['WordPress', 'PHP', 'JavaScript', 'MySQL', 'ACF'],
+    duration: '3 semaines',
+    client: 'Artiste Indépendant',
+    result: '200+ œuvres cataloguées',
+    url: 'https://www.example.com'
+  },
+  'project-5': {
+    title: 'Plateforme Artisanale',
+    category: 'Marketplace',
+    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1169&q=80',
+    description: 'Marketplace mettant en relation artisans locaux et clients. Profils artisans, catalogue produits, système de commande, paiement sécurisé et logistique intégrée.',
+    features: ['Profils artisans & clients', 'Système de commande', 'Paiement sécurisé', 'Gestion livraisons', 'Évaluations & avis', 'Panel administration'],
+    technologies: ['Vue.js', 'Laravel', 'MySQL', 'Redis', 'Stripe'],
+    duration: '10 semaines',
+    client: 'Artisans Associés',
+    result: '120 artisans inscrits',
+    url: 'https://www.example.com'
+  },
+  'project-6': {
+    title: 'Blog Culturel',
+    category: 'Blog',
+    image: 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=1170&q=80',
+    description: 'Plateforme de blog culturel avec CMS avancé, système de commentaires modérés, newsletter et recherche full-text. Plus de 500 articles publiés depuis le lancement.',
+    features: ['CMS personnalisé', 'Commentaires modérés', 'Newsletter intégrée', 'Recherche full-text', 'Design responsive', 'Partage réseaux sociaux'],
+    technologies: ['WordPress', 'PHP', 'MySQL', 'Elasticsearch'],
+    duration: '5 semaines',
+    client: 'Blog Culturel',
+    result: '500+ articles publiés',
+    url: 'https://www.example.com'
+  }
+};
+
+// ── Navigation ──
+document.getElementById('hamburger').addEventListener('click', function() {
+  const nav = document.getElementById('navLinks');
+  nav.classList.toggle('active');
+  const icon = this.querySelector('i');
+  icon.className = nav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+});
+
+// ── Filter ──
+let activeFilter = 'all';
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    activeFilter = this.dataset.filter;
+    filterProjects(activeFilter);
+  });
+});
+
+function filterProjects(filter) {
+  const cards = document.querySelectorAll('#projectsGrid .project-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const match = filter === 'all' || card.dataset.category === filter;
+    card.style.display = match ? 'block' : 'none';
+    if (match) visible++;
+  });
+  document.getElementById('projectCount').textContent = `${visible} projet${visible>1?'s':''}`;
+}
+
+// ── WebView ──
+const webviewModal = document.getElementById('webviewModal');
+const webviewIframe = document.getElementById('webviewIframe');
+const webviewPlaceholder = document.getElementById('webviewPlaceholder');
+const webviewTitle = document.getElementById('webviewTitle');
+const webviewUrl = document.getElementById('webviewUrl');
+const webviewFrameWrap = document.getElementById('webviewFrameWrap');
+let currentDevice = 'desktop';
+
+// Project screenshots map (use project images as previews)
+const projectScreenshots = {
+  'FashionStyle': 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+  'HomeDeco': 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=900&q=80',
+  'DeliveryFast': 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=80',
+  'Portfolio Artistique': 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=900&q=80',
+  'Plateforme Artisanale': 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=900&q=80',
+  'Blog Culturel': 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=900&q=80'
+};
+
+document.querySelectorAll('.open-webview').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const url = this.dataset.url;
+    const title = this.dataset.title || 'Prévisualisation';
+    openWebview(url, title);
+  });
+});
+
+function openWebview(url, title) {
+  webviewModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  webviewUrl.textContent = url;
+  webviewTitle.textContent = title;
+  
+  // Find screenshot
+  const projKey = Object.keys(projectScreenshots).find(k => title.includes(k));
+  const screenshot = projKey ? projectScreenshots[projKey] : null;
+  
+  // Show placeholder with screenshot
+  webviewIframe.style.display = 'none';
+  webviewPlaceholder.style.display = 'flex';
+  
+  const screenshotEl = document.getElementById('previewScreenshot');
+  if (screenshot) {
+    screenshotEl.innerHTML = `<img src="${screenshot}" alt="${title}" style="max-width:700px;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);">`;
+  }
+  
+  // Try loading iframe
+  try {
+    webviewIframe.src = url;
+    webviewIframe.onload = function() {
+      try {
+        // If same origin, show iframe; otherwise keep placeholder
+        webviewIframe.style.display = 'block';
+        webviewPlaceholder.style.display = 'none';
+      } catch(e) {
+        // Cross-origin: keep placeholder
+      }
+    };
+    webviewIframe.onerror = function() { /* keep placeholder */ };
+  } catch(e) {}
+}
+
+document.getElementById('webviewClose').addEventListener('click', () => {
+  webviewModal.classList.remove('active');
+  document.body.style.overflow = '';
+  webviewIframe.src = '';
+});
+
+document.getElementById('webviewRefresh').addEventListener('click', () => {
+  if (webviewIframe.src) webviewIframe.src = webviewIframe.src;
+});
+
+// Device switching
+document.querySelectorAll('.device-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentDevice = this.dataset.device;
+    webviewFrameWrap.className = `webview-frame-wrap ${currentDevice !== 'desktop' ? currentDevice : ''}`;
+  });
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    webviewModal.classList.remove('active');
+    document.getElementById('projectModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+// ── Project Details Modal ──
+document.querySelectorAll('.view-project-details').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const id = this.dataset.id;
+    const p = projectsData[id];
+    if (!p) return;
+    
+    document.getElementById('modalTitle').textContent = p.title;
+    document.getElementById('modalContent').innerHTML = `
+      <div class="project-modal-image"><img src="${p.image}" alt="${p.title}"></div>
+      <div class="project-modal-details">
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;">
+          <span class="project-category">${p.category}</span>
+          <span style="background:rgba(16,185,129,.1);color:var(--success);padding:.2rem .75rem;border-radius:50px;font-size:.78rem;font-weight:600;">${p.result}</span>
+        </div>
+        <h3>${p.title}</h3>
+        <p>${p.description}</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem;padding:1rem;background:var(--light);border-radius:10px;">
+          <div><strong style="font-size:.82rem;color:var(--gray);">CLIENT</strong><p style="font-size:.95rem;margin:0;">${p.client}</p></div>
+          <div><strong style="font-size:.82rem;color:var(--gray);">DURÉE</strong><p style="font-size:.95rem;margin:0;">${p.duration}</p></div>
+        </div>
+        <div class="project-modal-features" style="margin-bottom:1rem;">
+          <h4 style="font-size:1rem;margin-bottom:.7rem;">Fonctionnalités</h4>
+          ${p.features.map(f => `<div class="project-modal-feature"><i class="fas fa-check"></i> ${f}</div>`).join('')}
+        </div>
+        <div class="project-modal-features" style="margin-bottom:1.5rem;">
+          <h4 style="font-size:1rem;margin-bottom:.7rem;">Technologies</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem;">${p.technologies.map(t => `<span class="tech-tag">${t}</span>`).join('')}</div>
+        </div>
+        <div class="project-modal-actions">
+          <button class="btn btn-primary open-webview" data-url="${p.url}" data-title="${p.title}" onclick="openWebview('${p.url}','${p.title}');document.getElementById('projectModal').classList.remove('active')">
+            <i class="fas fa-eye"></i> Voir le site
+          </button>
+          <a href="index.html#contact" class="btn btn-secondary"><i class="fas fa-envelope"></i> Projet similaire</a>
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('projectModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+document.getElementById('closeProjectModal').addEventListener('click', () => {
+  document.getElementById('projectModal').classList.remove('active');
+  document.body.style.overflow = '';
+});
+</script>
+</body>
+</html>
