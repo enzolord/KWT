@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos Services — KN WEB & TECHNOLOGY</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Services page extra */
+    .services-hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .service-detail-card {
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1.5px solid var(--gray-light);
+      transition: var(--transition);
+    }
+    .service-detail-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-6px); border-color: transparent; }
+    .service-card-header {
+      padding: 2rem 2rem 1.5rem;
+      background: linear-gradient(135deg, rgba(58,12,163,.05), rgba(67,97,238,.08));
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .service-card-icon {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: #fff;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 8px 20px rgba(67,97,238,.3);
+    }
+    .service-card-title { font-size: 1.3rem; margin-bottom: .4rem; }
+    .service-card-tagline { color: var(--gray); font-size: .88rem; }
+    .service-card-body { padding: 1.5rem 2rem 2rem; }
+    .service-price-range {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: 1.2rem;
+      padding: .7rem 1rem;
+      background: rgba(67,97,238,.06);
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+    }
+    .service-price-range i { color: var(--primary); }
+    .service-price-range span { font-size: .88rem; color: var(--dark); font-weight: 600; }
+    .service-features-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1.5rem; }
+    .service-features-list li { display: flex; align-items: flex-start; gap: .6rem; font-size: .9rem; color: var(--gray); }
+    .service-features-list li i { color: var(--success); margin-top: 3px; font-size: .75rem; flex-shrink: 0; }
+    .service-card-footer { display: flex; gap: .7rem; flex-wrap: wrap; }
+
+    /* Technology stack */
+    #tech-stack { background: var(--dark); }
+    #tech-stack .section-title, #tech-stack .section-tag { color: #fff; }
+    #tech-stack .section-subtitle { color: rgba(255,255,255,.55); }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .tech-category {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: var(--transition);
+    }
+    .tech-category:hover { background: rgba(255,255,255,.08); border-color: var(--secondary); }
+    .tech-category h4 {
+      font-size: .82rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .tech-items { display: flex; flex-direction: column; gap: .5rem; }
+    .tech-item {
+      display: flex; align-items: center; gap: .6rem;
+      font-size: .88rem; color: rgba(255,255,255,.65);
+    }
+    .tech-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+
+    /* Process timeline */
+    .process-timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .process-timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--accent));
+      opacity: .3;
+    }
+    .timeline-step {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .timeline-number {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(67,97,238,.35);
+      z-index: 1;
+    }
+    .timeline-content {
+      flex: 1;
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.3rem 1.5rem;
+      border: 1.5px solid var(--gray-light);
+      margin-top: .3rem;
+    }
+    .timeline-content h3 { font-size: 1.1rem; margin-bottom: .4rem; }
+    .timeline-content p { color: var(--gray); font-size: .88rem; }
+
+    /* Why us comparison */
+    .comparison-table {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1.5px solid var(--gray-light);
+      box-shadow: var(--shadow);
+    }
+    .comparison-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      background: var(--dark);
+      color: #fff;
+    }
+    .comparison-header div { padding: 1rem 1.5rem; font-weight: 700; font-size: .9rem; }
+    .comparison-header .kn-col { background: linear-gradient(135deg, var(--primary), var(--secondary)); text-align: center; }
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      border-bottom: 1px solid var(--gray-light);
+    }
+    .comparison-row:last-child { border-bottom: none; }
+    .comparison-row div { padding: .9rem 1.5rem; font-size: .9rem; display: flex; align-items: center; gap: .5rem; }
+    .comparison-row .kn-col { justify-content: center; background: rgba(67,97,238,.04); }
+    .comparison-row .check { color: var(--success); }
+    .comparison-row .cross { color: var(--danger); }
+    .comparison-row .partial { color: var(--warning); }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<div class="nav-container">
+  <nav>
+    <a href="index.html" class="logo">
+      <img src="KN WEB TECHNOLOGY.jpg" alt="KN Logo">
+      <div class="logo-wordmark">
+        <span class="logo-kn">KN WEB</span>
+        <span class="logo-amp">&</span>
+        <span class="logo-tech">TECHNOLOGY</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="projets.html">Projets</a></li>
+      <li><a href="index.html#templates">Templates</a></li>
+      <li><a href="index.html#hardware">Matériel</a></li>
+      <li><a href="index.html#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="index.html#contact" class="btn btn-secondary">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+  </nav>
+</div>
+
+<!-- ── Page Hero ── -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="breadcrumb">
+      <a href="index.html">Accueil</a><span>/</span><span>Services</span>
+    </div>
+    <h1>Nos <span style="color:var(--accent2)">Services</span></h1>
+    <p>Des solutions digitales complètes, conçues pour propulser votre entreprise à l'ère numérique. De la conception à la mise en ligne, nous sommes à vos côtés.</p>
+  </div>
+</section>
+
+<!-- Stats bar -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><strong>9</strong><span>Services proposés</span></div>
+    <div class="stat-item"><strong>50+</strong><span>Projets livrés</span></div>
+    <div class="stat-item"><strong>15+</strong><span>Technologies maîtrisées</span></div>
+    <div class="stat-item"><strong>24/7</strong><span>Support disponible</span></div>
+  </div>
+</div>
+
+<!-- ── Services Grid ── -->
+<section id="services" style="background:#fff;">
+  <div class="section-header">
+    <span class="section-tag"><i class="fas fa-cogs"></i> Ce que nous faisons</span>
+    <h2 class="section-title">Solutions <span class="gradient-text">sur mesure</span></h2>
+    <p class="section-subtitle">Chaque service est adapté à vos besoins spécifiques pour garantir des résultats mesurables.</p>
+  </div>
+
+  <div class="services-hero-grid">
+
+    <!-- Développement Web -->
+    <div class="service-detail-card" id="web">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-laptop-code"></i></div>
+        <h3 class="service-card-title">Développement Web</h3>
+        <p class="service-card-tagline">Sites, applications et plateformes web sur mesure</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>À partir de 150 000 FCFA</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Des sites web performants, sécurisés et optimisés pour la conversion. Nous construisons des solutions qui durent et évoluent avec votre business.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Sites vitrines & landing pages</li>
+          <li><i class="fas fa-check-circle"></i> Applications web complexes (SaaS)</li>
+          <li><i class="fas fa-check-circle"></i> CMS personnalisés (WordPress, custom)</li>
+          <li><i class="fas fa-check-circle"></i> API RESTful & GraphQL</li>
+          <li><i class="fas fa-check-circle"></i> PWA (Progressive Web Apps)</li>
+          <li><i class="fas fa-check-circle"></i> Optimisation performances & SEO</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Devis gratuit</a>
+          <a href="projets.html" class="btn btn-secondary"><i class="fas fa-eye"></i> Voir des exemples</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Applications Mobiles -->
+    <div class="service-detail-card" id="mobile">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3 class="service-card-title">Applications Mobiles</h3>
+        <p class="service-card-tagline">iOS & Android natifs ou cross-platform</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>À partir de 500 000 FCFA</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Des applications mobiles fluides et intuitives, conçues pour offrir une expérience utilisateur exceptionnelle sur toutes les plateformes.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Applications iOS (Swift)</li>
+          <li><i class="fas fa-check-circle"></i> Applications Android (Kotlin)</li>
+          <li><i class="fas fa-check-circle"></i> React Native (cross-platform)</li>
+          <li><i class="fas fa-check-circle"></i> Flutter (cross-platform)</li>
+          <li><i class="fas fa-check-circle"></i> Intégration Mobile Money (MTN, Orange)</li>
+          <li><i class="fas fa-check-circle"></i> Notifications push & geolocalisation</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Devis gratuit</a>
+          <a href="projets.html" class="btn btn-secondary"><i class="fas fa-eye"></i> Voir des exemples</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- E-commerce -->
+    <div class="service-detail-card" id="ecommerce">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-shopping-bag"></i></div>
+        <h3 class="service-card-title">Solutions E-commerce</h3>
+        <p class="service-card-tagline">Boutiques en ligne & marketplaces</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>À partir de 250 000 FCFA</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Des plateformes de vente en ligne qui convertissent. Du catalogue produits à la logistique, nous gérons l'ensemble de votre écosystème e-commerce.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Boutiques WooCommerce, Shopify</li>
+          <li><i class="fas fa-check-circle"></i> Solutions sur mesure</li>
+          <li><i class="fas fa-check-circle"></i> Paiement Mobile Money intégré</li>
+          <li><i class="fas fa-check-circle"></i> Gestion stocks & commandes</li>
+          <li><i class="fas fa-check-circle"></i> Tableaux de bord analytiques</li>
+          <li><i class="fas fa-check-circle"></i> Marketplaces multi-vendeurs</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Devis gratuit</a>
+          <a href="projets.html?filter=ecommerce" class="btn btn-secondary"><i class="fas fa-eye"></i> Voir des exemples</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- UI/UX Design -->
+    <div class="service-detail-card" id="design">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-pencil-ruler"></i></div>
+        <h3 class="service-card-title">UI/UX Design</h3>
+        <p class="service-card-tagline">Expériences utilisateur mémorables</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>À partir de 100 000 FCFA</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Un design qui ne fait pas que plaire, il convertit. Nous créons des interfaces centrées utilisateur, testées et validées par de vraies données.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Audit UX & Recherche utilisateur</li>
+          <li><i class="fas fa-check-circle"></i> Wireframes & Prototypes interactifs</li>
+          <li><i class="fas fa-check-circle"></i> Design system complet</li>
+          <li><i class="fas fa-check-circle"></i> Tests d'utilisabilité</li>
+          <li><i class="fas fa-check-circle"></i> Identité visuelle (logo, charte)</li>
+          <li><i class="fas fa-check-circle"></i> Animation & micro-interactions</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Devis gratuit</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO -->
+    <div class="service-detail-card" id="seo">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-search-plus"></i></div>
+        <h3 class="service-card-title">Référencement SEO</h3>
+        <p class="service-card-tagline">Visibilité durable sur Google</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>À partir de 50 000 FCFA/mois</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Soyez trouvé par vos clients au moment où ils cherchent. Nous construisons une présence organique solide et durable, sans recourir à des pratiques douteuses.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Audit SEO technique complet</li>
+          <li><i class="fas fa-check-circle"></i> Optimisation on-page & contenu</li>
+          <li><i class="fas fa-check-circle"></i> Stratégie de mots-clés</li>
+          <li><i class="fas fa-check-circle"></i> Netlinking qualitatif</li>
+          <li><i class="fas fa-check-circle"></i> SEO local (Google My Business)</li>
+          <li><i class="fas fa-check-circle"></i> Rapports mensuels détaillés</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Audit gratuit</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hébergement -->
+    <div class="service-detail-card" id="hosting">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-server"></i></div>
+        <h3 class="service-card-title">Hébergement & Domaines</h3>
+        <p class="service-card-tagline">Infrastructure sécurisée & performante</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>À partir de 15 000 FCFA/mois</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Votre site mérite une infrastructure à la hauteur. Nous gérons l'hébergement, les domaines et la sécurité pour que vous vous concentriez sur votre cœur de métier.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Hébergement mutualisé & VPS</li>
+          <li><i class="fas fa-check-circle"></i> Enregistrement de domaines (.com, .cm...)</li>
+          <li><i class="fas fa-check-circle"></i> Certificats SSL gratuits</li>
+          <li><i class="fas fa-check-circle"></i> Sauvegardes automatiques quotidiennes</li>
+          <li><i class="fas fa-check-circle"></i> Migration de sites existants</li>
+          <li><i class="fas fa-check-circle"></i> CDN & optimisation vitesse</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Demander un devis</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maintenance -->
+    <div class="service-detail-card" id="maintenance">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-tools"></i></div>
+        <h3 class="service-card-title">Maintenance & Support</h3>
+        <p class="service-card-tagline">Assistance réactive et maintenance préventive</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>Inclus dans nos forfaits</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Un site qui ne fonctionne pas, c'est du business perdu. Notre équipe assure la surveillance, les mises à jour et les corrections pour une disponibilité maximale.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Surveillance 24/7 (uptime monitoring)</li>
+          <li><i class="fas fa-check-circle"></i> Mises à jour de sécurité</li>
+          <li><i class="fas fa-check-circle"></i> Corrections de bugs</li>
+          <li><i class="fas fa-check-circle"></i> Rapport d'activité mensuel</li>
+          <li><i class="fas fa-check-circle"></i> Support par email, téléphone & WhatsApp</li>
+          <li><i class="fas fa-check-circle"></i> SLA garanti selon forfait</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#pricing" class="btn btn-primary"><i class="fas fa-tags"></i> Voir les forfaits</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transformation Digitale -->
+    <div class="service-detail-card" id="digital">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-business-time"></i></div>
+        <h3 class="service-card-title">Transformation Digitale</h3>
+        <p class="service-card-tagline">Accompagnement stratégique complet</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>Sur devis personnalisé</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">La transformation digitale ne se limite pas à un site web. Nous accompagnons votre entreprise dans sa globalité : processus, outils, formation et stratégie.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Audit digital complet de l'entreprise</li>
+          <li><i class="fas fa-check-circle"></i> Stratégie de transformation</li>
+          <li><i class="fas fa-check-circle"></i> Digitalisation des processus internes</li>
+          <li><i class="fas fa-check-circle"></i> Formation des équipes</li>
+          <li><i class="fas fa-check-circle"></i> Intégration outils CRM, ERP</li>
+          <li><i class="fas fa-check-circle"></i> Suivi et accompagnement continu</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Demander un audit</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Matériel Informatique -->
+    <div class="service-detail-card" id="hardware-service">
+      <div class="service-card-header">
+        <div class="service-card-icon"><i class="fas fa-desktop"></i></div>
+        <h3 class="service-card-title">Vente Matériel Informatique</h3>
+        <p class="service-card-tagline">Équipement de qualité à prix compétitifs</p>
+      </div>
+      <div class="service-card-body">
+        <div class="service-price-range"><i class="fas fa-tag"></i><span>Prix Cameroun compétitifs</span></div>
+        <p style="color:var(--gray);font-size:.9rem;margin-bottom:1rem;">Ordinateurs, écrans, périphériques, réseau... Nous sourçons et livrons le matériel informatique dont votre entreprise a besoin, avec garantie et service après-vente.</p>
+        <ul class="service-features-list">
+          <li><i class="fas fa-check-circle"></i> Ordinateurs portables & fixes</li>
+          <li><i class="fas fa-check-circle"></i> Écrans & accessoires</li>
+          <li><i class="fas fa-check-circle"></i> Solutions réseau & Wi-Fi</li>
+          <li><i class="fas fa-check-circle"></i> Imprimantes & solutions d'impression</li>
+          <li><i class="fas fa-check-circle"></i> Tablettes graphiques</li>
+          <li><i class="fas fa-check-circle"></i> Garantie & SAV inclus</li>
+        </ul>
+        <div class="service-card-footer">
+          <a href="index.html#hardware" class="btn btn-primary"><i class="fas fa-eye"></i> Voir le catalogue</a>
+          <a href="https://wa.me/237620819290" class="btn btn-secondary"><i class="fab fa-whatsapp"></i> Commander</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Process ── -->
+<section id="process" style="background:linear-gradient(135deg,#f0efff,#fdf0f8);">
+  <div class="section-header">
+    <span class="section-tag"><i class="fas fa-route"></i> Méthodologie</span>
+    <h2 class="section-title">Notre <span class="gradient-text">Processus</span></h2>
+    <p class="section-subtitle">Une approche structurée et transparente pour garantir le succès de vos projets.</p>
+  </div>
+  <div class="process-timeline">
+    <div class="timeline-step">
+      <div class="timeline-number">1</div>
+      <div class="timeline-content">
+        <h3>Analyse des Besoins</h3>
+        <p>Nous commençons par comprendre vos objectifs, votre cible et votre secteur. Une réunion de cadrage (présentiel ou visioconférence) permet de définir précisément le périmètre du projet.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-number">2</div>
+      <div class="timeline-content">
+        <h3>Proposition & Devis</h3>
+        <p>Sous 48h, vous recevez une proposition détaillée : périmètre fonctionnel, planning, budget et conditions. Nous discutons ensemble jusqu'à validation complète.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-number">3</div>
+      <div class="timeline-content">
+        <h3>Conception & Maquettes</h3>
+        <p>Notre équipe design crée les maquettes interactives et l'architecture technique. Vous validez chaque étape avant le début du développement.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-number">4</div>
+      <div class="timeline-content">
+        <h3>Développement</h3>
+        <p>Développement itératif avec accès à un environnement de staging. Vous suivez l'avancement en temps réel et pouvez donner vos retours à chaque sprint.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-number">5</div>
+      <div class="timeline-content">
+        <h3>Tests & Validation</h3>
+        <p>Tests complets (fonctionnels, performance, sécurité, compatibilité cross-browser & mobile). Correction de tous les points soulevés avant la mise en ligne.</p>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-number">6</div>
+      <div class="timeline-content">
+        <h3>Livraison & Formation</h3>
+        <p>Mise en production, formation de vos équipes à l'utilisation de la solution, remise de toute la documentation. Et le suivi commence !</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Tech Stack ── -->
+<section id="tech-stack">
+  <div class="section-header">
+    <span class="section-tag" style="background:rgba(255,255,255,.1);color:var(--accent2);"><i class="fas fa-code"></i> Technologies</span>
+    <h2 class="section-title" style="color:#fff;">Notre <span style="color:var(--accent2)">Stack Technique</span></h2>
+    <p class="section-subtitle">Nous utilisons les technologies les plus adaptées à chaque projet, toujours à la pointe de l'industrie.</p>
+  </div>
+  <div class="tech-grid">
+    <div class="tech-category">
+      <h4>Frontend</h4>
+      <div class="tech-items">
+        <div class="tech-item"><div class="tech-dot"></div>React / Next.js</div>
+        <div class="tech-item"><div class="tech-dot"></div>Vue.js / Nuxt.js</div>
+        <div class="tech-item"><div class="tech-dot"></div>Angular</div>
+        <div class="tech-item"><div class="tech-dot"></div>HTML5 / CSS3</div>
+        <div class="tech-item"><div class="tech-dot"></div>TypeScript</div>
+      </div>
+    </div>
+    <div class="tech-category">
+      <h4>Backend</h4>
+      <div class="tech-items">
+        <div class="tech-item"><div class="tech-dot"></div>Node.js / Express</div>
+        <div class="tech-item"><div class="tech-dot"></div>PHP / Laravel</div>
+        <div class="tech-item"><div class="tech-dot"></div>Python / Django</div>
+        <div class="tech-item"><div class="tech-dot"></div>GraphQL / REST</div>
+        <div class="tech-item"><div class="tech-dot"></div>Firebase</div>
+      </div>
+    </div>
+    <div class="tech-category">
+      <h4>Bases de données</h4>
+      <div class="tech-items">
+        <div class="tech-item"><div class="tech-dot"></div>MySQL / PostgreSQL</div>
+        <div class="tech-item"><div class="tech-dot"></div>MongoDB</div>
+        <div class="tech-item"><div class="tech-dot"></div>Redis</div>
+        <div class="tech-item"><div class="tech-dot"></div>Elasticsearch</div>
+        <div class="tech-item"><div class="tech-dot"></div>Supabase</div>
+      </div>
+    </div>
+    <div class="tech-category">
+      <h4>Mobile</h4>
+      <div class="tech-items">
+        <div class="tech-item"><div class="tech-dot"></div>React Native</div>
+        <div class="tech-item"><div class="tech-dot"></div>Flutter</div>
+        <div class="tech-item"><div class="tech-dot"></div>Swift (iOS)</div>
+        <div class="tech-item"><div class="tech-dot"></div>Kotlin (Android)</div>
+        <div class="tech-item"><div class="tech-dot"></div>Expo</div>
+      </div>
+    </div>
+    <div class="tech-category">
+      <h4>CMS & E-commerce</h4>
+      <div class="tech-items">
+        <div class="tech-item"><div class="tech-dot"></div>WordPress</div>
+        <div class="tech-item"><div class="tech-dot"></div>Shopify</div>
+        <div class="tech-item"><div class="tech-dot"></div>WooCommerce</div>
+        <div class="tech-item"><div class="tech-dot"></div>Magento</div>
+        <div class="tech-item"><div class="tech-dot"></div>Strapi</div>
+      </div>
+    </div>
+    <div class="tech-category">
+      <h4>Cloud & DevOps</h4>
+      <div class="tech-items">
+        <div class="tech-item"><div class="tech-dot"></div>AWS / Google Cloud</div>
+        <div class="tech-item"><div class="tech-dot"></div>Docker / Kubernetes</div>
+        <div class="tech-item"><div class="tech-dot"></div>CI/CD (GitHub Actions)</div>
+        <div class="tech-item"><div class="tech-dot"></div>Vercel / Netlify</div>
+        <div class="tech-item"><div class="tech-dot"></div>Nginx / Apache</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Why KN ── -->
+<section style="background:#fff;">
+  <div class="section-header">
+    <span class="section-tag"><i class="fas fa-trophy"></i> Pourquoi nous</span>
+    <h2 class="section-title">KN vs <span class="gradient-text">la concurrence</span></h2>
+    <p class="section-subtitle">Ce qui nous distingue dans le marché camerounais du développement web.</p>
+  </div>
+  <div class="comparison-table">
+    <div class="comparison-header">
+      <div>Critère</div>
+      <div class="kn-col">✦ KN WEB & TECHNOLOGY</div>
+      <div>Autres agences</div>
+    </div>
+    <div class="comparison-row">
+      <div>Technologies modernes (React, Flutter...)</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-exclamation-circle partial" style="color:var(--warning)"></i> Parfois</div>
+    </div>
+    <div class="comparison-row">
+      <div>Design UI/UX professionnel inclus</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-times-circle cross"></i></div>
+    </div>
+    <div class="comparison-row">
+      <div>Intégration Mobile Money (MTN, Orange)</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-exclamation-circle partial" style="color:var(--warning)"></i> Rare</div>
+    </div>
+    <div class="comparison-row">
+      <div>Support 24/7 réel</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-times-circle cross"></i></div>
+    </div>
+    <div class="comparison-row">
+      <div>Transparence des prix (FCFA)</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-exclamation-circle partial" style="color:var(--warning)"></i> Variable</div>
+    </div>
+    <div class="comparison-row">
+      <div>Livraison dans les délais garantie</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-times-circle cross"></i></div>
+    </div>
+    <div class="comparison-row">
+      <div>Formation & documentation incluses</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-times-circle cross"></i></div>
+    </div>
+    <div class="comparison-row">
+      <div>Maintenance & évolutivité du code</div>
+      <div class="kn-col"><i class="fas fa-check-circle check"></i></div>
+      <div><i class="fas fa-exclamation-circle partial" style="color:var(--warning)"></i> Coûts cachés</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="cta-container">
+    <h2 class="cta-title">Prêt à démarrer ?</h2>
+    <p class="cta-text">Obtenez un devis gratuit sous 24h. Notre équipe est à votre disposition pour analyser votre projet.</p>
+    <div class="cta-buttons">
+      <a href="index.html#contact" class="btn btn-ghost"><i class="fas fa-paper-plane"></i> Devis gratuit</a>
+      <a href="tel:+237620819290" class="btn btn-accent"><i class="fas fa-phone"></i> +237 620 81 92 90</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-col">
+      <div class="footer-logo">
+        <div class="footer-logo-icon"><i class="fas fa-code" style="color:#fff"></i></div>
+        <span class="footer-logo-text">KN WEB & TECHNOLOGY</span>
+      </div>
+      <p class="footer-about">Agence digitale spécialisée dans le développement web, mobile et les solutions digitales sur mesure.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/share/19MHVy3v4m/"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/kn_web_technology"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Services</h3>
+      <ul class="footer-links">
+        <li><a href="#web"><i class="fas fa-chevron-right"></i> Développement Web</a></li>
+        <li><a href="#mobile"><i class="fas fa-chevron-right"></i> Applications Mobiles</a></li>
+        <li><a href="#ecommerce"><i class="fas fa-chevron-right"></i> E-commerce</a></li>
+        <li><a href="#seo"><i class="fas fa-chevron-right"></i> Référencement SEO</a></li>
+        <li><a href="#digital"><i class="fas fa-chevron-right"></i> Transformation Digitale</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Navigation</h3>
+      <ul class="footer-links">
+        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+        <li><a href="projets.html"><i class="fas fa-chevron-right"></i> Projets</a></li>
+        <li><a href="index.html#templates"><i class="fas fa-chevron-right"></i> Templates</a></li>
+        <li><a href="index.html#pricing"><i class="fas fa-chevron-right"></i> Forfaits</a></li>
+        <li><a href="index.html#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <ul class="footer-links">
+        <li><a href="tel:+237620819290"><i class="fas fa-phone"></i> +237 620 81 92 90</a></li>
+        <li><a href="mailto:contact@knwebtechnology.com"><i class="fas fa-envelope"></i> contact@knwebtechnology.com</a></li>
+        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Douala, Cameroun</a></li>
+        <li><a href="#"><i class="fas fa-clock"></i> Lun-Sam : 24/24</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Newsletter</h3>
+      <div class="footer-newsletter">
+        <p>Recevez nos conseils et actualités digitales.</p>
+        <form class="newsletter-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <input type="email" name="email" placeholder="Votre email" required>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            <i class="fas fa-paper-plane"></i> S'abonner
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    &copy; 2025 KN WEB & TECHNOLOGY. Tous droits réservés. |
+    <a href="Mention legale.html">Mentions légales</a> |
+    <a href="politique de confidentialite.html">Politique de confidentialité</a>
+  </div>
+</footer>
+
+<a href="assistant.html" class="floating-chat-button" title="Assistant KN IA"><i class="fas fa-comments"></i></a>
+<a href="https://wa.me/237620819290" class="whatsapp-float" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<script>
+document.getElementById('hamburger').addEventListener('click', function() {
+  const nav = document.getElementById('navLinks');
+  nav.classList.toggle('active');
+  const icon = this.querySelector('i');
+  icon.className = nav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+});
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.service-detail-card, .timeline-step, .tech-category').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
