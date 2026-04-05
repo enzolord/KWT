@@ -177,33 +177,92 @@
 <body>
 
 <!-- ── Navigation ── -->
-<div class="nav-container">
+<div class="container" >   
   <nav>
-    <a href="index.html" class="logo">
-      <img src="KN WEB TECHNOLOGY.jpg" alt="KN Logo">
-      <div class="logo-wordmark">
-        <span class="logo-kn">KN WEB</span>
-        <span class="logo-amp">&</span>
-        <span class="logo-tech">TECHNOLOGY</span>
-      </div>
-    </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="projets.html" class="active">Projets</a></li>
-      <li><a href="index.html#templates">Templates</a></li>
-      <li><a href="index.html#hardware">Matériel</a></li>
-      <li><a href="index.html#faq">FAQ</a></li>
-    </ul>
-    <div class="nav-actions">
-      <a href="index.html#contact" class="btn btn-secondary">Contact</a>
-      <div class="cart-icon" id="cart-icon">
+          <a href="#" class="logo flex items-center space-x-1 no-underline">
+   <div class="flex items-center justify-left">
+  <img src="KN WEB TECHNOLOGY.jpg" alt="KN WEB TECHNOLOGY Logo" class="w-16 h-16 rounded-full border-2 border-indigo-500 shadow-md">
+ 
+    <div class="flex items-baseline flex-nowrap">
+        <span class="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent whitespace-nowrap">
+            KN WEB
+        </span>
+        <span class="mx-1 w-5 h-5 bg-indigo-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
+            &
+        </span>
+        <span class="text-lg font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent whitespace-nowrap">
+            TECHNOLOGY
+        </span>
+    </div>
+</div>
+</a>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#hero">Accueil</a>
+                <a href="#services">Services</a>
+                <a href="#pricing">Forfaits</a>
+                <a href="#templates">Templates</a>
+                <a href="#projects">Projets</a>
+                <a href="#hardware">Matériel</a>
+                <a href="#faq">FAQ</a>
+                
+                <!-- Actions mobiles -->
+                <div class="mobile-nav-actions">
+                    <a href="#contact" class="btn btn-secondary">Contact</a>
+                    
+                </div>
+            </div>
+            
+            <div class="nav-actions">
+                <a href="#contact" class="btn btn-secondary">Contact</a>
+              
+            </div>
+          
+    <!-- Icône du panier -->
+    <div class="cart-icon" id="cart-icon">
         <i class="fas fa-shopping-cart"></i>
         <span class="cart-count" id="cart-count">0</span>
-      </div>
     </div>
-    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
-  </nav>
+    
+    <!-- Overlay pour fermer le panier -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    
+    <!-- Panier latéral -->
+    <div class="cart-panel" id="cart-panel">
+        <div class="cart-header">
+            <h2 class="cart-title">Votre Panier</h2>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-items" id="cart-items">
+            <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Votre panier est vide</p>
+            </div>
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">Procéder au paiement</button>
+        </div>
+    </div>
+    
+    <!-- Notification d'ajout au panier -->
+    <div class="cart-notification" id="cart-notification">
+        <i class="fas fa-check-circle notification-icon"></i>
+        <span id="notification-text">Produit ajouté au panier!</span>
+    </div>
+    
+        <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
 </div>
 
 <!-- ── Page Hero ── -->
