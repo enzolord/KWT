@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Plan - SmartPoultry AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .document {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 60px 80px;
+            position: relative;
+        }
+
+        /* En-tête avec lignes décoratives */
+        .header-line {
+            border-top: 3px solid #2c3e6d;
+            margin: 10px 0;
+        }
+        .header-line.thin {
+            border-top: 1px solid #2c3e6d;
+        }
+
+        /* Page de garde */
+        .cover {
+            text-align: center;
+            margin-bottom: 60px;
+            page-break-after: avoid;
+        }
+        .logo-placeholder {
+            width: 100px;
+            height: 100px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+        }
+        .cover h1 {
+            font-size: 28px;
+            text-transform: uppercase;
+            color: #1a3a5c;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+        .cover h2 {
+            font-size: 20px;
+            color: #333;
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+        .cover .project-info {
+            margin-top: 60px;
+            font-size: 16px;
+            line-height: 2;
+        }
+
+        /* Typographie */
+        h1 {
+            font-size: 24px;
+            color: #1a3a5c;
+            margin: 30px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #2c3e6d;
+        }
+        h2 {
+            font-size: 20px;
+            color: #2c3e6d;
+            margin: 25px 0 12px 0;
+        }
+        h3 {
+            font-size: 18px;
+            color: #2c3e6d;
+            margin: 20px 0 10px 0;
+            font-style: italic;
+        }
+        h4 {
+            font-size: 16px;
+            color: #2c3e6d;
+            margin: 15px 0 8px 0;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        /* Tableaux */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 10px 8px;
+            vertical-align: top;
+        }
+        th {
+            background-color: #e8eef4;
+            font-weight: bold;
+            text-align: center;
+        }
+        .table-caption {
+            font-size: 12px;
+            font-style: italic;
+            margin-top: -15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Listes */
+        ul, ol {
+            margin: 10px 0 15px 30px;
+        }
+        li {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+
+        /* Signatures et mentions */
+        .signature {
+            margin-top: 50px;
+            text-align: right;
+            font-size: 14px;
+        }
+        .footer-note {
+            margin-top: 30px;
+            font-size: 12px;
+            text-align: center;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+
+        /* Couleurs pour SWOT et PESTEL */
+        .swot-table th:first-child { background-color: #d4edda; }
+        .swot-table th:last-child { background-color: #f8d7da; }
+        .swot-table td:first-child { background-color: #f0fff4; }
+        .swot-table td:last-child { background-color: #fff5f5; }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .document {
+                box-shadow: none;
+                padding: 30px;
+                max-width: 100%;
+            }
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+            table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="document">
+
+    <!-- PAGE DE GARDE -->
+    <div class="cover">
+        <div class="logo-placeholder">
+            <span>Logo PNPE</span>
+        </div>
+        <div class="header-line"></div>
+        <div class="header-line thin"></div>
+        <h1>BUSINESS PLAN</h1>
+        <h2>SmartPoultry AI</h2>
+        <div class="header-line thin"></div>
+        <div class="header-line"></div>
+        <div class="project-info">
+            <p><strong>Système intelligent de surveillance et d’analyse avicole<br>par intelligence artificielle</strong></p>
+            <p><strong>Porteur du projet :</strong> NLOKA NLOKA VICTOR EMMANUEL</p>
+            <p><strong>Téléphone :</strong> 640288619 / 683642355<br>
+            <strong>Email :</strong> nlokavictoremmanuel@gmail.com</p>
+            <p><strong>Région :</strong> Littoral – Sanaga Maritime<br>
+            <strong>Incubateur :</strong> Pépinière Nationale Pilote d’Entreprises (PNPE) d’Edéa – Ntoumba</p>
+            <p><strong>Date :</strong> _________________</p>
+        </div>
+    </div>
+
+    <!-- ========== PARTIE 1 ========== -->
+    <h1>PARTIE 1 : ENTREPRENEUR ET SON PROJET</h1>
+
+    <h2>1. ORIGINE DU PROJET D’AFFAIRES</h2>
+    <p>Mon projet est né de l’observation directe des pertes importantes dans les élevages avicoles camerounais (15 à 30 %). En tant que développeur web/mobile passionné d’IA, j’ai constaté que les solutions existantes (comptage manuel, caméras importées sans IA) ne répondaient pas aux besoins des éleveurs locaux. Après un passage chez LEVEGI Consulting et des discussions avec des éleveurs, l’idée de SmartPoultry AI s’est imposée : une caméra intelligente qui compte, détecte les mortalités et les maladies, et alerte via WhatsApp.</p>
+    <p><strong>Approche retenue :</strong><br>
+    – Opportunité d’affaires : marché en croissance, besoin criant.<br>
+    – Innovation technologique : vision par ordinateur, infrarouge, IA embarquée.</p>
+
+    <h2>2. DESCRIPTION DU PROJET</h2>
+    <p>SmartPoultry AI est une <strong>entreprise de services technologiques</strong> (développement matériel et logiciel). Ses produits se divisent en quatre champs d’intervention :</p>
+    <table>
+        <thead>
+            <tr><th>Champ</th><th>Intitulé</th><th>Services offerts</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>Surveillance intelligente</td><td>Comptage auto, détection mortalités, analyse comportementale (maladies)</td></tr>
+            <tr><td>2</td><td>Alertes et communication</td><td>Notifications WhatsApp (mortalités, anomalies, rappels)</td></tr>
+            <tr><td>3</td><td>Dashboard et données</td><td>Interface web, statistiques, export de rapports</td></tr>
+            <tr><td>4</td><td>Maintenance et formation</td><td>Installation, formation, SAV, mises à jour</td></tr>
+        </tbody>
+    </table>
+    <p><strong>Différenciation :</strong><br>
+    – IA embarquée (fonctionne sans internet haut débit).<br>
+    – Infrarouge (vision nocturne).<br>
+    – Alertes WhatsApp (canal universel).<br>
+    – Prix abordable (1,5 M FCFA contre >5 M pour les importations).<br>
+    – Aucun concurrent direct en Afrique centrale.</p>
+
+    <h2>3. MISSION ET VISION</h2>
+    <h3>3.1 Vision</h3>
+    <p><strong>Ma vision est de faire de SmartPoultry AI le leader africain de l’élevage de précision d’ici 2030, en déployant des solutions d’IA accessibles, fiables et adaptées aux réalités locales, afin de transformer durablement l’aviculture et, à terme, d’autres filières d’élevage sur le continent.</strong></p>
+    <h3>3.2 Mission</h3>
+    <table>
+        <thead><tr><th>Question</th><th>Ma réponse</th></tr></thead>
+        <tbody>
+            <tr><td>Mon entreprise fait quoi ?</td><td>Je conçois et déploie un système de surveillance automatisée par IA pour les élevages avicoles.</td></tr>
+            <tr><td>Pour qui ?</td><td>Pour les éleveurs semi‑industriels (500 à 10 000+ poulets), coopératives, fermes modernes au Cameroun.</td></tr>
+            <tr><td>Sur quel territoire ?</td><td>Littoral, Centre, Ouest en phase 1, puis tout le Cameroun et la CEMAC.</td></tr>
+            <tr><td>Comment ?</td><td>Caméra intelligente (infrarouge + IA) + alertes WhatsApp + dashboard web + accompagnement local.</td></tr>
+        </tbody>
+    </table>
+    <p><strong>Mission synthétisée :</strong> <em>Réduire les pertes avicoles au Cameroun en rendant accessible une surveillance intelligente, automatisée et abordable, grâce à l’IA et à WhatsApp.</em></p>
+
+    <h2>4. OBJECTIFS DE L’ENTREPRISE</h2>
+    <h3>Objectifs quantitatifs</h3>
+    <table>
+        <thead><tr><th>Objectif</th><th>Première année (2025)</th><th>Deuxième année (2026)</th></tr></thead>
+        <tbody>
+            <tr><td>Chiffre d’affaires</td><td>15 M FCFA</td><td>40 M FCFA</td></tr>
+            <tr><td>Nombre de clients (fermes)</td><td>5</td><td>20</td></tr>
+            <tr><td>Nombre d’unités produites (caméras)</td><td>5</td><td>15</td></tr>
+            <tr><td>Nombre d’intermédiaires / points de vente</td><td>1 partenariat</td><td>3 partenariats</td></tr>
+            <tr><td>Nombre d’heures facturées (formation)</td><td>200 h</td><td>500 h</td></tr>
+            <tr><td>Nombre d’employés</td><td>2</td><td>5</td></tr>
+            <tr><td>Développement de nouveaux produits</td><td>Prototype finalisé</td><td>Version commerciale V1.0</td></tr>
+            <tr><td>Bénéfice net</td><td>2 M FCFA</td><td>8 M FCFA</td></tr>
+        </tbody>
+    </table>
+    <h3>Objectifs qualitatifs</h3>
+    <ul>
+        <li>Réduire les pertes avicoles (mortalités, maladies) dans les fermes clientes.</li>
+        <li>Démocratiser l’IA dans l’élevage camerounais.</li>
+        <li>Devenir la référence technologique reconnue par le MINEPIA et les coopératives.</li>
+        <li>Construire une relation de confiance durable avec chaque client.</li>
+        <li>Contribuer à la souveraineté alimentaire du Cameroun.</li>
+    </ul>
+
+    <h2>5. ASPECTS JURIDIQUES</h2>
+    <h3>5.1 Présentation du promoteur</h3>
+    <p><strong>NLOKA NLOKA VICTOR EMMANUEL</strong>, 18 ans, célibataire, résidant à Douala. Diplômé en développement web/mobile, autodidacte en data science et vision par ordinateur. Expérience chez LEVEGI Consulting. Motivations : contribuer à la modernisation de l’agriculture camerounaise par l’IA.</p>
+    <h3>5.2 Innovation du projet et choix stratégiques</h3>
+    <table>
+        <thead><tr><th>Innovation</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td>Technologique</td><td>Vision par ordinateur + infrarouge + IA embarquée.</td></tr>
+            <tr><td>D’usage</td><td>Alertes WhatsApp (aucune appli supplémentaire).</td></tr>
+            <tr><td>Sociale</td><td>Formation des éleveurs, création d’emplois locaux.</td></tr>
+            <tr><td>Économique</td><td>Modèle hardware + SaaS, abordable pour les PME.</td></tr>
+        </tbody>
+    </table>
+    <h3>5.3 Formes juridiques</h3>
+    <p>Après analyse, j’ai retenu la <strong>SUARL</strong> (Société Unipersonnelle à Responsabilité Limitée) pour les raisons suivantes : responsabilité limitée, crédibilité professionnelle, évolutivité vers une SARL pluripersonnelle, capital social minimal de 100 000 FCFA.</p>
+    <h3>5.4 Modèle de gouvernance</h3>
+    <p><strong>Gérant (moi-même)</strong> : direction, stratégie, développement technique, commercial.<br>
+    <strong>Développeur IA</strong> (recrutement an 1) : amélioration modèles, maintenance.<br>
+    <strong>Technicien IoT</strong> (recrutement an 2) : installation, SAV terrain.<br>
+    <strong>Commercial</strong> (recrutement an 2) : prospection, ventes.</p>
+    <h3>5.5 Conventions ou statuts entre actionnaires</h3>
+    <p>Je suis l’unique actionnaire. Aucune convention pour l’instant. Si à l’avenir j’associe d’autres personnes, je prévois une clause de non‑concurrence, un pacte d’actionnaires avec médiation en cas de conflit, et une procédure d’entrée/sortie.</p>
+    <h3>5.6 Contacts et réseaux d’affaires</h3>
+    <table>
+        <thead><tr><th>Type</th><th>Partenaire</th><th>Rôle</th></tr></thead>
+        <tbody>
+            <tr><td>Institutionnel</td><td>MINEPIA</td><td>Accès aux filières, appui technique.</td></tr>
+            <tr><td>Institutionnel</td><td>PNPE Edéa</td><td>Incubation, mentorat, mise en réseau.</td></tr>
+            <tr><td>Professionnel</td><td>IPAVIC (Interprofession avicole)</td><td>Accès aux éleveurs, tests pilotes.</td></tr>
+            <tr><td>Académique</td><td>IUT de Douala, Université de Yaoundé I</td><td>Stages, R&D, validation des modèles.</td></tr>
+            <tr><td>Technique</td><td>Fournisseurs de caméras (locaux/internationaux)</td><td>Approvisionnement matériel.</td></tr>
+            <tr><td>Financier</td><td>Banque des PME, PATNUC</td><td>Financement initial et croissance.</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ========== SECTION III ========== -->
+    <h1>SECTION III : ÉTUDE DE MARCHÉ</h1>
+
+    <h2>3.1 Secteur d’activité et environnement</h2>
+    <h3>3.1.1 Analyse PESTEL</h3>
+    <table>
+        <thead><tr><th>Facteur</th><th>Analyse pour SmartPoultry AI</th></tr></thead>
+        <tbody>
+            <tr><td>Politique</td><td>Stabilité politique, SND30, PATNUC, appui du MINEPIA à la modernisation avicole.</td></tr>
+            <tr><td>Économique</td><td>Croissance de la demande en volailles, inflation modérée, budget des éleveurs variable (300 k – 1,5 M FCFA/mois).</td></tr>
+            <tr><td>Socioculturel</td><td>Forte consommation de poulet, WhatsApp omniprésent, méfiance initiale envers les nouvelles technologies.</td></tr>
+            <tr><td>Technologique</td><td>Faible digitalisation du secteur, mais couverture mobile élevée, possibilité d’IA embarquée.</td></tr>
+            <tr><td>Écologique</td><td>Détection précoce des maladies réduit l’usage d’antibiotiques, limite les pertes.</td></tr>
+            <tr><td>Légal</td><td>Normes sanitaires en évolution, obligation d’immatriculation pour les marchés publics.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3.1.2 Analyse SWOT</h3>
+    <table class="swot-table">
+        <thead><tr><th>FORCES</th><th>FAIBLESSES</th></tr></thead>
+        <tbody>
+            <tr><td>– Technologie innovante (vision par ordinateur + infrarouge)<br>– Solution locale adaptée au contexte camerounais<br>– Alertes WhatsApp (canal universel)<br>– Coût abordable (1,5 M FCFA)<br>– Équipe technique compétente<br>– Incubation PNPE</td>
+            <td>– Dépendance à l’électricité<br>– Faible notoriété initiale<br>– Capacité financière limitée pour la production en série<br>– Nécessité de former les éleveurs<br>– Maintenance terrain à organiser</td></tr>
+        </tbody>
+        <thead><tr><th>OPPORTUNITÉS</th><th>MENACES</th></tr></thead>
+        <tbody>
+            <tr><td>– Croissance rapide du secteur avicole<br>– Volonté politique de digitaliser l’agriculture<br>– Absence de solution similaire en Afrique centrale<br>– Partenariats possibles avec MINEPIA et coopératives<br>– Financements PATNUC, Banque des PME</td>
+            <td>– Apparition de concurrents imitateurs<br>– Fluctuation du coût des composants électroniques<br>– Résistance au changement de certains éleveurs<br>– Pannes électriques fréquentes en zone rurale<br>– Cyber risques (faibles)</td></tr>
+        </tbody>
+    </table>
+    <p><strong>Mesures correctives :</strong> Batterie secours/panneau solaire, tests pilotes, dépôt de brevet, formation d’ambassadeurs, mémoire non volatile.</p>
+
+    <h2>3.2 Analyse de la concurrence</h2>
+    <p>Aucun concurrent direct en Afrique centrale. Alternatives : caméras importées génériques (pas d’IA, pas d’alertes, SAV inexistant) et comptage manuel (non fiable, chronophage).</p>
+    <p><strong>Stratégies :</strong> différenciation technologique, valeur ajoutée (‑30 % de pertes), partenariats exclusifs, offre de leasing, SAV local, formation continue.</p>
+
+    <h2>3.3 Clientèle cible potentielle</h2>
+    <h3>3.3.1 Segmentation</h3>
+    <p><strong>Entreprise :</strong> élevages semi‑industriels (500‑10 000+ volailles, 2‑20 employés) et coopératives avicoles.<br>
+    <strong>Individu :</strong> éleveur/gérant de 30‑55 ans, majoritairement homme, revenus 300 000‑1 500 000 FCFA/mois, ouvert à la tech.</p>
+    <h3>3.3.2 Territoire visé</h3>
+    <p>Phase 1 (2025) : Littoral, Centre, Ouest. Phase 2 (2026‑2027) : Nord‑Ouest, Sud‑Ouest, Adamaoua.</p>
+    <h3>3.3.3 Marché potentiel</h3>
+    <p>TAM : 800‑1 200 fermes. SAM : 300‑400. SOM (objectif 3 ans) : 50 fermes. Coopératives : environ 150.</p>
+    <h3>3.3.4 Estimation des ventes</h3>
+    <table>
+        <thead><tr><th>Année</th><th>Caméras vendues</th><th>Prix unitaire (FCFA)</th><th>Abonnements annuels (FCFA)</th><th>CA total estimé</th></tr></thead>
+        <tbody>
+            <tr><td>2025</td><td>5</td><td>1 500 000</td><td>1 250 000</td><td>≈ 12‑15 M</td></tr>
+            <tr><td>2026</td><td>15</td><td>1 500 000</td><td>4 500 000</td><td>≈ 35‑45 M</td></tr>
+            <tr><td>2027</td><td>30</td><td>1 500 000</td><td>10 500 000</td><td>≈ 70‑90 M</td></tr>
+        </tbody>
+    </table>
+
+    <h2>3.4 Part de marché (projection)</h2>
+    <table>
+        <thead><tr><th>Indicateur</th><th>2025</th><th>2026</th><th>2027</th></tr></thead>
+        <tbody>
+            <tr><td>Fermes équipées (cumul)</td><td>5</td><td>20</td><td>50</td></tr>
+            <tr><td>Part du marché cible (SOM)</td><td>~1,2 %</td><td>~5 %</td><td>~12,5 %</td></tr>
+            <tr><td>Part du marché total (TAM)</td><td>~0,5 %</td><td>~2 %</td><td>~5 %</td></tr>
+        </tbody>
+    </table>
+
+    <h1>ANNEXES</h1>
+    <ul>
+        <li>Questionnaire d’enquête terrain (30 éleveurs) – disponible sur demande.</li>
+        <li>Détails techniques du prototype : schéma bloc, composants, spécifications (Raspberry Pi 4, caméra infrarouge 1080p, modèle YOLOv8).</li>
+        <li>Lettres d’intention de partenaires (IPAVIC, MINEPIA) – en cours de finalisation.</li>
+        <li>Curriculum vitae du promoteur.</li>
+        <li>Devis des fournisseurs (caméras, batteries, panneaux solaires).</li>
+    </ul>
+
+    <div class="signature">
+        <p>Fait à Edéa, le _________________</p>
+        <p><strong>Le Promoteur,</strong></p>
+        <p><em>NLOKA NLOKA VICTOR EMMANUEL</em></p>
+    </div>
+
+    <div class="footer-note">
+        <p>SmartPoultry AI – Système intelligent de surveillance et d’analyse avicole par IA</p>
+        <p>📞 640288619 / 683642355 – 📧 nlokavictoremmanuel@gmail.com</p>
+    </div>
+</div>
+</body>
+</html>
